@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="857.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddAppointmentController">
+   <children>
+      <GridPane layoutX="123.0" layoutY="122.0" prefHeight="407.0" prefWidth="354.0" vgap="40.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="26.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="8.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="apptTitleTxt" GridPane.columnIndex="1" />
+            <Label fx:id="apptTitleLbl" prefHeight="17.0" prefWidth="110.0" text="Title" />
+            <Label fx:id="apptDescLbl" text="Description" GridPane.rowIndex="1" />
+            <Label fx:id="apptLocationLbl" text="Location" GridPane.rowIndex="3" />
+            <Label fx:id="apptContactLbl" text="Contact" GridPane.rowIndex="4" />
+            <TextArea fx:id="apptDescTxt" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+            <TextField fx:id="apptLocationTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="apptTypeLbl" text="Type" GridPane.rowIndex="5" />
+            <Label fx:id="apptStartLbl" text="Start Date" GridPane.rowIndex="7" />
+            <Label fx:id="apptEndLbl" text="End Date/Time" GridPane.rowIndex="9" />
+            <Label fx:id="apptCustIdLbl" text="Customer Id" GridPane.rowIndex="10" />
+            <Label fx:id="apptUserIdLbl" text="User Id" GridPane.rowIndex="11" />
+            <TextField fx:id="apptContactTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="apptTypeTxt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="apptCustIdTxt" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <TextField fx:id="apptUserIdTxt" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <DatePicker fx:id="startDate" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <DatePicker fx:id="endDate" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label text="Start Time" GridPane.rowIndex="6" />
+            <Label text="End Time" GridPane.rowIndex="8" />
+            <TextField fx:id="startHr" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="38.0" promptText="HH" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="startSec" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="36.0" promptText="SS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+            <TextField fx:id="startMin" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="36.0" promptText="MM" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <TextField fx:id="endHr" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="38.0" promptText="HH" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="endMin" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="36.0" promptText="MM" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+            <TextField fx:id="endSec" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="36.0" promptText="SS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </GridPane>
+      <Text layoutX="224.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Appointment" textAlignment="CENTER" wrappingWidth="151.22900390625">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Text>
+      <Button fx:id="saveBtn" layoutX="123.0" layoutY="728.0" mnemonicParsing="false" onAction="#onActAddAppt" text="Save" />
+      <Button fx:id="cancelBtn" layoutX="420.0" layoutY="742.0" mnemonicParsing="false" onAction="#onActCancelAppt" text="Cancel" />
+   </children>
+</AnchorPane>

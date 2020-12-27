@@ -1,0 +1,394 @@
+package Controller;
+
+import Model.Appointment;
+import Model.Customer;
+import Model.User;
+import Utils.DBConnection;
+import Utils.DBDAO;
+import Utils.DBQuery;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static Utils.DBDAO.UserDaoImpl.*;
+
+public class DashboardController implements Initializable {
+
+    public static int idCount = 10;
+    Stage stage;
+    Parent scene;
+
+    /**
+     * This method changes windows when called.
+     *
+     * @param address is the location of the new window
+     * @param event   is for the event handler that triggers the switch
+     */
+    public void sceneManage(String address, ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource(address));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    @FXML
+    private Label uIText;
+
+    @FXML
+    private TableView<Appointment> apptTbl;
+
+    @FXML
+    private Button addCustBtn;
+
+    @FXML
+    private Button updateCustBtn;
+
+    @FXML
+    private Button deleteCustBtn;
+
+    @FXML
+    private Button addApptBtn;
+
+    @FXML
+    private Button updateApptBtn;
+
+    @FXML
+    private Button deleteApptBtn;
+
+    @FXML
+    private TableView<Customer> custTbl;
+
+    @FXML
+    private TableColumn<Customer, String> custNameCol;
+
+    @FXML
+    private TableColumn<Customer, String> custPhoneCol;
+
+    @FXML
+    private TableColumn<Customer, String> custAddressCol;
+
+    @FXML
+    private TableColumn<Customer, String> custZipCodeCol;
+
+    @FXML
+    private TableColumn<Customer, Integer> custDivisionIdCol;
+
+    @FXML
+    private TableColumn<Appointment, Integer> apptIdCol;
+
+    @FXML
+    private TableColumn<Appointment, String> apptTitleCol;
+
+    @FXML
+    private TableColumn<Appointment, String> apptDescCol;
+
+    @FXML
+    private TableColumn<Appointment, String> apptLocCol;
+
+    @FXML
+    private TableColumn<Appointment, Integer> apptContactCol;
+
+    @FXML
+    private TableColumn<Appointment, String> apptTypeCol;
+
+    @FXML
+    private TableColumn<Appointment, java.sql.Date> apptStartCol;
+
+    @FXML
+    private TableColumn<Appointment, java.sql.Date> apptEndCol;
+
+    @FXML
+    private TableColumn<Appointment, Integer> apptCustomerIdCol;
+
+
+    /**
+     * This handles the add appointment button.
+     *
+     * @param event navigates to the Add Appointment page.
+     */
+    @FXML
+    void onActAddAppt(ActionEvent event) throws IOException {
+        sceneManage("/View/AddAppointment.fxml", event);
+    }
+
+    /**
+     * This handles the add customer button.
+     *
+     * @param event navigates to the Add Customer page.
+     */
+    @FXML
+    void onActAddCust(ActionEvent event) throws IOException {
+        sceneManage("/View/AddCustomer.fxml", event);
+    }
+
+    @FXML
+    void onActDeleteAppt(ActionEvent event) {
+        try {
+            if ((apptTbl.getSelectionModel().getSelectedItem() == null)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select an appointment first");
+                alert.showAndWait();
+                return;
+            } else {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Confirmation");
+                confirmation.setContentText("Are you sure you wish to remove this appointment? This action cannot be undone.");
+                Optional<ButtonType> result = confirmation.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    Connection conn = DBConnection.startConnection();
+                    Appointment selected = (Appointment) apptTbl.getSelectionModel().getSelectedItem();
+                    String sqlStatement = "delete from appointments where appointment_id = " + selected.getId() + ";";
+
+                    DBQuery.setStatement(conn);
+                    Statement statement = DBQuery.getStatement();
+
+                    statement.execute(sqlStatement);
+                    for (Appointment appt : allAppointments) { //NEEDS WORK
+                        if (appt.getId() == selected.getId()) {
+                            allAppointments.remove(appt);
+
+
+                        } else System.out.println("Failed to remove from list");
+
+                    }
+                }
+            }
+        } catch (NullPointerException | SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Exception: " + ex);
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void onActDeleteCust(ActionEvent event) {
+        try {
+            if ((custTbl.getSelectionModel().getSelectedItem() == null)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a customer first");
+                alert.showAndWait();
+                return;
+            } else {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Confirmation");
+                confirmation.setContentText("Are you sure you wish to remove this customer? This action cannot be undone.");
+                Optional<ButtonType> result = confirmation.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    Connection conn = DBConnection.startConnection();
+                    Customer selected = custTbl.getSelectionModel().getSelectedItem();
+                    String sqlStatement = "delete from customers where customer_id = " + selected.getId() + ";";
+                    DBQuery.setStatement(conn);
+                    Statement statement = DBQuery.getStatement();
+                    statement.execute(sqlStatement);
+                    for (Customer cust : allCustomers) { //NEEDS WORK
+                        if (cust.getId() == selected.getId()) {
+                            allCustomers.remove(cust);
+                            uIText.setText(cust.getName() + " has been deleted.");
+
+
+                        } else System.out.println("Failed to remove from list");
+
+                    }
+                }
+            }
+        } catch (NullPointerException | SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Exeption: " + ex);
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * This handles the modify part button.
+     *
+     * @param event navigates to the modify part page. It also calls the sendPart() method in the Modify Part Controller.
+     */
+    @FXML
+    void onActUpdateCust(ActionEvent event) throws SQLException, Exception {
+
+
+        if ((custTbl.getSelectionModel().getSelectedItem() == null)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a customer first");
+            alert.showAndWait();
+            return;
+        } else {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ModifyCustomer.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            ModifyCustomerController MCController = loader.getController();
+            MCController.sendCustomer(custTbl.getSelectionModel().getSelectedItem());
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+    }
+
+
+
+    /** This handles the exit button.
+     @param event navigates to exit the entire application.  */
+    @FXML
+    void onActExit(ActionEvent event) throws IOException {
+        System.exit(0);
+    }
+//
+//
+    /** This handles the modify product button.
+     @param event navigates to the modify Product page. This uses the sendProduct method, which is sourced from the ModifyProduct
+     Controller. */
+    @FXML
+    void onActUpdateAppt(ActionEvent event) throws Exception {
+
+        if ((apptTbl.getSelectionModel().getSelectedItem() == null)){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select an appointment first.");
+            alert.showAndWait();
+            return;
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ModifyAppointment.fxml"));
+            try {
+                loader.load();
+                System.out.println(loader);
+            } catch (IOException ex) {
+                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            ModifyAppointmentController MAController = loader.getController();
+            MAController.sendAppt(apptTbl.getSelectionModel().getSelectedItem());
+
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+        }
+    }
+//    /** This handles the search parts textfield.
+//     @param event handles the filtering of the results */
+//    @FXML
+//    void onActSearchParts(KeyEvent event) throws IOException {
+//        try {
+//            partTblView.setItems(lookupPart(partSearchTxt.getText()));
+//            if (Inventory.getFilteredParts().size() == 1) {
+//                partTblView.getSelectionModel().select(0);
+//            }
+//
+//        } catch (NullPointerException ex) {
+//            System.out.println("Exception: " + ex);
+//        }
+//    }
+//
+//    /** This handles the search products textfield.
+//     @param event handles the filtering of the results */
+//    @FXML
+//    void onActSearchProducts(KeyEvent event) throws IOException {
+//        try {
+//            prodTblView.setItems(lookupProduct(prodSearchTxt.getText()));
+//            if (Inventory.getFilteredProducts().size() == 1) {
+//                prodTblView.getSelectionModel().select(0);
+//            }
+//
+//        }
+//        catch(NullPointerException ex)
+//        {
+//            System.out.println("Exception " + ex);
+//        }
+//    }
+
+
+    /** This method is called when the window is first loaded. Within, it sets the id TextField with the current counter. A new object is created that can then be called upon
+     * later.
+     @param url is the location where this class is found.
+     @param rb helps facilitate actions with objects.
+     */
+    @Override
+    public void initialize (URL url, ResourceBundle rb) {
+
+        ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
+            if (a.getStart().isEqual(LocalDateTime.now().plusMinutes(15)) || a.getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
+
+                System.out.println("Got one!");
+                uIText.setText("ID: " + a.getId() + " Date: " + a.getStart().toLocalDate() + "Time: " + a.getStart().atZone(ZoneId.systemDefault()));
+                return true;
+            }
+            System.out.println("Missed one!");
+            return false;
+
+        });
+
+        if (!filteredAppointments.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("You have an appointment within 15 minutes. Please confirm");
+            alert.showAndWait();
+
+        }
+
+            try {
+                allCustomers.clear();
+                custTbl.setItems(allCustomers);
+                getAllCustomers();
+                custTbl.setItems(allCustomers);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            custPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            custAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+            custZipCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+            custDivisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
+
+            try {
+                allAppointments.clear();
+                apptTbl.setItems(allAppointments);
+                getAllAppointments();
+                apptTbl.setItems(allAppointments);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.showAndWait();
+            }
+
+            apptIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            apptDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            apptLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            apptContactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+            apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+            apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+            apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        }
+
+
+}
