@@ -74,25 +74,16 @@ public class AddCustomerController implements Initializable {
     @FXML
     private ComboBox<Division> fLDivision;
 
-    @FXML
-    private Label custStreetAddress2Lbl;
-
-    @FXML
-    private TextField custStreetAddress2Txt;
-
-    @FXML
-    private Label custCityLbl;
-
-    @FXML
-    private TextField custCityTxt;
 
 
 
+    /**
+     * This method causes the divisions to auto-populate.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActChooseCountry(ActionEvent event) throws SQLException, IOException {
-
-
-
 
         Country selectedCountry = country.getSelectionModel().getSelectedItem();
         selectedCountry.setAllDivisions();
@@ -100,6 +91,12 @@ public class AddCustomerController implements Initializable {
 
     }
 
+
+    /**
+     * This method exits to the main Dashboard.
+     *
+     * @param event   is for the event handler.
+     */
         @FXML
         void onActCancelCust (ActionEvent event) throws IOException {
 
@@ -107,6 +104,12 @@ public class AddCustomerController implements Initializable {
 
         }
 
+
+    /**
+     * This method adds the customer information to MySQL and a list.
+     *
+     * @param event   is for the event handler.
+     */
         @FXML
         void onActSaveCust (ActionEvent event) throws SQLException, IOException {
 
@@ -117,7 +120,7 @@ public class AddCustomerController implements Initializable {
             idCount++;
             String name = custNameTxt.getText();
             String phone = custPhoneTxt.getText();
-            String address = custStreetAddressTxt.getText() + " " + custStreetAddress2Txt.getText() + " " + custCityTxt.getText();
+            String address = custStreetAddressTxt.getText();
             String postalCode = custZipCodeTxt.getText();
             int divisionNum = fLDivision.getSelectionModel().getSelectedItem().getDivisionId();
 

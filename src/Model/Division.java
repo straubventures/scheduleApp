@@ -1,5 +1,11 @@
 package Model;
 
+
+/**
+ * Stores Division data.
+ *
+ *
+ */
 public class Division {
     private int countryId;
     private int divisionId;

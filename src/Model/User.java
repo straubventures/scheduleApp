@@ -2,6 +2,11 @@ package Model;
 
 import javafx.collections.ObservableList;
 
+/**
+ * Stores user information.
+ *
+ *
+ */
 public class User {
     static ObservableList<Appointment> allAppointments;
     private int id;

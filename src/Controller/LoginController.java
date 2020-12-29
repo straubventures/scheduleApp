@@ -72,10 +72,16 @@ public class LoginController implements Initializable {
 
     }
 
-
+    /**
+     * Logs user in when they press enter.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onEnter(KeyEvent event) throws Exception {
-        if (event.getCode().getCode() == 13) {
+        System.out.println("Hello there. " + event.getCode().getCode());
+
+        if (event.getCode().getCode() == 10) {
             Locale currentLocale = Locale.getDefault();
             ResourceBundle rbund = ResourceBundle.getBundle("Main/Nat", currentLocale);
             boolean userFound = false;
@@ -89,14 +95,13 @@ public class LoginController implements Initializable {
                     PrintWriter outputFile = new PrintWriter(fileWriter);
                     outputFile.println(user.getUsername() + " successfully logged in on this date: " + LocalDateTime.now());
                     outputFile.close();
-                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                    stage = (Stage) ((TextField) event.getSource()).getScene().getWindow();
                     scene = FXMLLoader.load(getClass().getResource("/View/Dashboard.fxml"));
                     stage.setScene(new Scene(scene));
                     stage.show();
 
                     break;
                 }
-                else System.out.println("Code is inaccurate.");
             }
 
             if (userFound == false) {
@@ -114,12 +119,20 @@ public class LoginController implements Initializable {
             }
         }
         }
-
+    /**
+     * Navigates to signup page.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActGoToSignUpPage(ActionEvent event) throws IOException {
         sceneManage("/view/SignUp.fxml", event);
     }
-
+    /**
+     * Logs in the user.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActLogin(ActionEvent event) throws Exception, SQLException {
         Locale currentLocale = Locale.getDefault();

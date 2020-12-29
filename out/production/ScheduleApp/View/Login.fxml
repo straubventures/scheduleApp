@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
       <TextField fx:id="userNameTxt" layoutX="220.0" layoutY="269.0" promptText="Username" />
-      <TextField fx:id="passwordTxt" layoutX="220.0" layoutY="309.0" onAction="#onAction" onKeyPressed="#onEnter" promptText="Password" />
+      <TextField fx:id="passwordTxt" layoutX="220.0" layoutY="309.0" onKeyPressed="#onEnter" promptText="Password" />
       <Button fx:id="loginBtn" layoutX="220.0" layoutY="351.0" mnemonicParsing="false" onAction="#onActLogin" text="Login" />
       <Button fx:id="signUpBtn" layoutX="321.0" layoutY="351.0" mnemonicParsing="false" onAction="#onActGoToSignUpPage" text="Sign up" />
       <Text fx:id="titleLbl" layoutX="138.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USchedule" wrappingWidth="324.5">

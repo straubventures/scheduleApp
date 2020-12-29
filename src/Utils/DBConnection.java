@@ -5,7 +5,11 @@ package Utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * Stores Database information and methods.
+ *
+ *
+ */
 public class DBConnection {
     //JDBC URL parts
     private static final String protocol = "jdbc";
@@ -23,6 +27,11 @@ public class DBConnection {
     private static final String username = "U08AVA";
     private static String password = "53689232650";
 
+    /**
+     * Initiates connection with database.
+     *
+     *
+     */
     public static Connection startConnection(){
         try {
             Class.forName(mySqlJDBCDriver);
@@ -33,7 +42,9 @@ public class DBConnection {
             System.out.println(x.getMessage());
         } return conn;
     }
-
+    /**
+     * Closes connection with database.
+     */
     public static void closeConnection() {
         try {
             conn.close();

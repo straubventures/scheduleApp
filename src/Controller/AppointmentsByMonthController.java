@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,11 +46,20 @@ public class AppointmentsByMonthController implements Initializable {
     @FXML
     private Label numberOfAppts;
 
+    @FXML
+    private TextField apptTypeTxt;
 
+
+
+    /**
+     * This method uses a lambda expression to create a filtered list of appointments that involve a given month.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActChooseMonth(ActionEvent event) {
             ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
-                if (a.getStart().getMonth().toString().equals(monthList.getSelectionModel().getSelectedItem().toUpperCase())) {
+                if (a.getStart().getMonth().toString().equals(monthList.getSelectionModel().getSelectedItem().toUpperCase()) ) {
                     System.out.println("Yay!");
                     return true;
                 }
@@ -62,12 +73,46 @@ public class AppointmentsByMonthController implements Initializable {
 
             }
 
+    /**
+     * This method uses a lambda expression to create a filtered list of appointments whose type contains the user-typed String input.
+     *
+     * @param event   is for the event handler.
+     */
+    @FXML
+    void onKeyFilter(KeyEvent event) {
+        ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
+            if (a.getStart().getMonth().toString().equals(monthList.getSelectionModel().getSelectedItem().toUpperCase()) && a.getType().contains(apptTypeTxt.getText()) ) {
+                System.out.println("Yay!");
+                return true;
+            }
+            System.out.println(a.getStart().getMonth().toString());
+            return false;
+
+
+        });
+
+        numberOfAppts.setText(String.valueOf(filteredAppointments.size()));
+
+    }
+
+
+    /**
+     * This method goes back to the reports dashboard.
+     *
+     * @param event   is for the event handler.
+     */
 
     @FXML
     void onActGoBack(ActionEvent event) throws IOException {
         sceneManage("/View/Reports.fxml", event);
     }
 
+    /**
+     * This method loads a list of months for the user to choose from.
+     *
+     * @param url   is for the locating resources.
+     * @param rb   is for the accessing resources.
+     */
     public void initialize(URL url, ResourceBundle rb){
         ObservableList<String> months = FXCollections.observableArrayList();
         months.add("January");

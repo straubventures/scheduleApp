@@ -20,23 +20,34 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.TimeZone;
-
+/**
+ *Main application that initiates the rest of the program.
+ *
+ *
+ */
 public class Main extends Application {
 
+    /**
+     * Loads up all the lists necessary to run the application smoothly.
+     *
+     * @param primaryStage is the first file location.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+
         DBDAO.UserDaoImpl.setAllCountries();
         DBDAO.UserDaoImpl.getAllCustomers();
-        DBDAO.UserDaoImpl.getAllAppointments();
         DBDAO.UserDaoImpl.setAllContacts();
+        DBDAO.UserDaoImpl.getAllAppointments();
+
 
 
 
         Locale currentLocale = Locale.getDefault();
         ResourceBundle rb = ResourceBundle.getBundle("Main/Nat", currentLocale);
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            primaryStage.setTitle(rb.getString("Hello") + " " + rb.getString("World"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
+            primaryStage.setTitle(rb.getString("Hello") + " " + rb.getString("World") + "!");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
     }

@@ -4,7 +4,11 @@ import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-
+/**
+ * Stores event information.
+ *
+ *
+ */
 public class Appointment {
     private int id;
     private String title;
@@ -15,11 +19,11 @@ public class Appointment {
     private LocalDateTime end;
     private int customerId;
     private int userId;
-    private int contactId;
+    private Contact contact;
     private static ObservableList<Customer> allApptCustomers;
     private static ObservableList<Contact> allApptContacts;
 
-    public Appointment(int id, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contactId) {
+    public Appointment(int id, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, Contact contact) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -29,7 +33,7 @@ public class Appointment {
         this.end = end;
         this.customerId = customerId;
         this.userId = userId;
-        this.contactId = contactId;
+        this.contact = contact;
     }
 
     public String getLocation() {
@@ -132,12 +136,12 @@ public class Appointment {
         this.userId = userId;
     }
 
-    public int getContactId() {
-        return contactId;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
 

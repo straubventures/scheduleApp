@@ -127,17 +127,31 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private DatePicker startDate;
 
+    /**
+     * Choose contact.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActChooseContact(ActionEvent event) {
 
     }
 
-
+    /**
+     * Navigates back to main dashboard.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActCancelCust(ActionEvent event) throws IOException {
         sceneManage("/View/Dashboard.fxml", event);
     }
 
+    /**
+     * Saves appointment to MySQL and lists.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActSaveAppt(ActionEvent event) {
         try {
@@ -252,14 +266,14 @@ public class ModifyAppointmentController implements Initializable {
                             pSqlStatement.setTimestamp(7, end);
                             pSqlStatement.setInt(8, customerId);
                             pSqlStatement.setInt(9, userId);
-                            pSqlStatement.setInt(10, contactId);
+                            pSqlStatement.setInt(10, contactList.getSelectionModel().getSelectedItem().getId());
                             pSqlStatement.setInt(11, id);
 
                             pSqlStatement.execute();
                             DBConnection.closeConnection();
 
 
-                            Appointment newAppt = new Appointment(id, title, description, location, type, start.toLocalDateTime(), end.toLocalDateTime(), customerId, userId, contactId);
+                            Appointment newAppt = new Appointment(id, title, description, location, type, start.toLocalDateTime(), end.toLocalDateTime(), customerId, userId, contactList.getSelectionModel().getSelectedItem());
 
                             for (int i = 0; i < getAllAppointments().size(); i++) {
                                 if (allAppointments.get(i).getId() == newAppt.getId())
@@ -280,13 +294,19 @@ public class ModifyAppointmentController implements Initializable {
         }
 
     }
+
+    /**
+     * Enables the modify appt page to be autopopulated by sending the appointment through this method.
+     *
+     * @param appt is the appointment sent from the main dashboard.
+     */
     public void  sendAppt(Appointment appt) {
         try {
 //Appointment_ID, title, description, location, contact, type, start date and time, end date and time, Customer_ID, and User_ID.
 
             Contact contactChoice = null;
             for (Contact contact : allContacts) {
-                if (appt.getContactId() == contact.getId()) {
+                if (appt.getContact().getId() == contact.getId()) {
                     contactChoice = contact;
                 }
             }

@@ -72,3 +72,36 @@ Application started: 2020-12-29T08:09:51.705807
 test successfully logged in on this date: 2020-12-29T08:10:04.394424
 Application started: 2020-12-29T08:13:00.450184
 test successfully logged in on this date: 2020-12-29T08:13:19.761855
+Application started: 2020-12-29T11:51:35.165525
+test successfully logged in on this date: 2020-12-29T11:51:46.926186
+Application started: 2020-12-29T12:02:49.568906
+test successfully logged in on this date: 2020-12-29T12:03:03.481676
+Application started: 2020-12-29T12:05:04.625872
+Application started: 2020-12-29T12:05:52.304544
+test successfully logged in on this date: 2020-12-29T12:06:03.628350
+Application started: 2020-12-29T12:08:58.802595
+Application started: 2020-12-29T12:09:59.574102
+Application started: 2020-12-29T12:10:50.416697
+test successfully logged in on this date: 2020-12-29T12:11:05.506030
+Application started: 2020-12-29T12:12:40.206360
+test successfully logged in on this date: 2020-12-29T12:12:51.727216
+Application started: 2020-12-29T12:25:07.082381
+test successfully logged in on this date: 2020-12-29T12:26:04.696608
+Application started: 2020-12-29T12:40:57.288700
+Application started: 2020-12-29T12:44:59.386532
+Application started: 2020-12-29T12:45:37.774432
+Application started: 2020-12-29T12:46:26.646574
+Application started: 2020-12-29T12:46:52.197176
+Application started: 2020-12-29T12:47:59.512825
+Application started: 2020-12-29T12:49:27.263975
+Application started: 2020-12-29T12:50:06.222346
+test successfully logged in on this date: 2020-12-29T12:50:19.058299
+test successfully logged in on this date: 2020-12-29T12:50:26.395507
+Application started: 2020-12-29T12:51:04.811465
+test successfully logged in on this date: 2020-12-29T12:51:14.512515
+test FAILED to log in on this date: 2020-12-29T12:51:24.019114
+Application started: 2020-12-29T12:52:01.994983
+test successfully logged in on this date: 2020-12-29T12:52:16.842757
+test successfully logged in on this date: 2020-12-29T12:57:41.757041
+Application started: 2020-12-29T13:43:26.911832
+test successfully logged in on this date: 2020-12-29T13:43:37.070015

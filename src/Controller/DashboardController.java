@@ -134,7 +134,11 @@ public class DashboardController implements Initializable {
     private RadioButton apptsThisWeek;
 
 
-
+    /**
+     *  Navigates to the reports menu.
+     *
+     * @param event navigates to the Add Appointment page.
+     */
     @FXML
     void onActReports(ActionEvent event) throws IOException {
         sceneManage("/View/Reports.fxml", event);
@@ -151,6 +155,11 @@ public class DashboardController implements Initializable {
         sceneManage("/View/AddAppointment.fxml", event);
     }
 
+    /**
+     * Shows all apppointments on Appointments table. Uses a lambda to create a filtered list.
+     *
+     * @param event navigates to the Add Appointment page.
+     */
     @FXML
     void onActShowAll(ActionEvent event) {
         try {
@@ -173,7 +182,11 @@ public class DashboardController implements Initializable {
         apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
     }
 
-
+    /**
+     * Shows all appointments this month. Uses a lambda to create a filtered list.
+     *
+     * @param event navigates to the Add Appointment page.
+     */
     @FXML
     void onActThisMonth(ActionEvent event) {
         try {
@@ -202,7 +215,11 @@ public class DashboardController implements Initializable {
         apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
     }
 
-
+    /**
+     * Shows all events this week. Uses a lambda to create a filtered list.
+     *
+     * @param event navigates to the Add Appointment page.
+     */
     @FXML
     void onActThisWeek(ActionEvent event) {
         try {
@@ -242,6 +259,11 @@ public class DashboardController implements Initializable {
         sceneManage("/View/AddCustomer.fxml", event);
     }
 
+    /**
+     * Deletes selected appointment.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActDeleteAppt(ActionEvent event) {
         try {
@@ -283,7 +305,11 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Deletes selected customer.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActDeleteCust(ActionEvent event) {
         try {
@@ -326,7 +352,7 @@ public class DashboardController implements Initializable {
 
 
     /**
-     * This handles the modify part button.
+     * This handles the modify customer.
      *
      * @param event navigates to the modify part page. It also calls the sendPart() method in the Modify Part Controller.
      */
@@ -366,9 +392,8 @@ public class DashboardController implements Initializable {
     void onActExit(ActionEvent event) throws IOException {
         System.exit(0);
     }
-//
-//
-    /** This handles the modify product button.
+
+    /** This handles the modify appointment button.
      @param event navigates to the modify Product page. This uses the sendProduct method, which is sourced from the ModifyProduct
      Controller. */
     @FXML
@@ -398,40 +423,14 @@ public class DashboardController implements Initializable {
 
         }
     }
-
+    /**
+     * Navigates to the login page.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     public void onActSignOut (ActionEvent event) throws IOException {
         sceneManage("/View/Login.fxml", event);
     }
-//   s
-//    void onActSearchParts(KeyEvent event) throws IOException {
-//        try {
-//            partTblView.setItems(lookupPart(partSearchTxt.getText()));
-//            if (Inventory.getFilteredParts().size() == 1) {
-//                partTblView.getSelectionModel().select(0);
-//            }
-//
-//        } catch (NullPointerException ex) {
-//            System.out.println("Exception: " + ex);
-//        }
-//    }
-//
-//    /** This handles the search products textfield.
-//     @param event handles the filtering of the results */
-//    @FXML
-//    void onActSearchProducts(KeyEvent event) throws IOException {
-//        try {
-//            prodTblView.setItems(lookupProduct(prodSearchTxt.getText()));
-//            if (Inventory.getFilteredProducts().size() == 1) {
-//                prodTblView.getSelectionModel().select(0);
-//            }
-//
-//        }
-//        catch(NullPointerException ex)
-//        {
-//            System.out.println("Exception " + ex);
-//        }
-//    }
-
 
     /** This method is called when the window is first loaded. Within, it sets the id TextField with the current counter. A new object is created that can then be called upon
      * later.
@@ -456,11 +455,14 @@ public class DashboardController implements Initializable {
             alert.setContentText("You have an appointment within 15 minutes. Please confirm");
             alert.showAndWait();
 
+        } else {
+            uIText.setText("No upcoming appointments.");
+
+
         }
 
             try {
                 allCustomers.clear();
-//                custTbl.setItems(allCustomers);
                 getAllCustomers();
                 custTbl.setItems(allCustomers);
             } catch (Exception e) {
@@ -475,11 +477,11 @@ public class DashboardController implements Initializable {
 
             try {
                 allAppointments.clear();
-//                apptTbl.setItems(allAppointments);
                 getAllAppointments();
                 apptTbl.setItems(allAppointments);
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Appointment Table issue: " + e.getMessage());
                 alert.showAndWait();
             }
 
@@ -487,7 +489,7 @@ public class DashboardController implements Initializable {
             apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
             apptDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
             apptLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-            apptContactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+            apptContactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
             apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
             apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
             apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));

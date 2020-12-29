@@ -85,34 +85,39 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private ComboBox<Division> fLDivision;
 
-    @FXML
-    private Label custAddressLbl2;
-
-    @FXML
-    private Label custCityLbl;
-
-    @FXML
-    private TextField custStreetAddress2Txt;
-
-    @FXML
-    private TextField custCityTxt;
-
+    /**
+     * Autopopulates divisions based on chosen country.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActChooseCountry(ActionEvent event) throws SQLException, IOException {
         Country selectedCountry = country.getSelectionModel().getSelectedItem();
         fLDivision.setItems(selectedCountry.getAllDivisions());
     }
+
+    /**
+     * Navigates back to main dashbaord.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActCancelCust(ActionEvent event) throws IOException {
         sceneManage("/View/Dashboard.fxml", event);
     }
 
+
+    /**
+     * Saves customer and adds them to MySQL and lists.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActSaveCust(ActionEvent event) throws Exception {
         int id = Integer.parseInt(idTxt.getText());
         String name = custNameTxt.getText();
         String phone = custPhoneTxt.getText();
-        String address = custStreetAddressTxt.getText() + ", " + custStreetAddress2Txt.getText() + " " + custCityTxt.getText();
+        String address = custStreetAddressTxt.getText();
         String postalCode = custZipCodeTxt.getText();
 
         int divisionNum = fLDivision.getSelectionModel().getSelectedItem().getDivisionId();
@@ -149,28 +154,8 @@ public class ModifyCustomerController implements Initializable {
                 idTxt.setText(String.valueOf(customer.getId()));
                 custNameTxt.setText(String.valueOf(customer.getName()));
                 custPhoneTxt.setText(String.valueOf(customer.getPhone()));
+                custStreetAddressTxt.setText(String.valueOf(customer.getAddress()));
 
-                /** ALL KINDS OF BAD RIGHT HERE
-                 *
-                 * 
-                if (customer.getAddress().contains(",")) { //NEEDS TO BE FIXED!!!!!!!!!!!!!!!!!!
-                    int commaIndex = customer.getAddress().indexOf(",");
-                    System.out.println("Comma Index: " + commaIndex);
-                    custStreetAddressTxt.setText(customer.getAddress().substring(0, commaIndex - 1));
-
-                    String newAddress = customer.getAddress().substring(commaIndex);
-                    commaIndex = customer.getAddress().indexOf(",");
-                    System.out.println("Comma Index: " + commaIndex);
-                    custStreetAddress2Txt.setText(newAddress.substring(1, commaIndex - 1));
-
-                    newAddress = customer.getAddress().substring(commaIndex);
-                    custCityTxt.setText(newAddress.substring(commaIndex + 1));
-
-                    System.out.println("Address = " + custStreetAddressTxt + " " + custStreetAddress2Txt + " " + custCityTxt);
-
-                }
-
-                 */
 
 
                 custZipCodeTxt.setText(String.valueOf(customer.getPostalCode()));

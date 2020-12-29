@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
 import static Utils.DBDAO.UserDaoImpl.allCountries;
 import static Utils.DBDAO.UserDaoImpl.allCountryNames;
 
-
+/**
+ * DB information for creating and accessing objects from MySQL.
+ *
+ *
+ */
 public class DBDAO {
 
 
@@ -25,7 +29,11 @@ public class DBDAO {
         public static ObservableList<String> allCountryNames = FXCollections.observableArrayList();
         public static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
-
+        /**
+         * Retrieves user data.
+         *
+         * @param userName navigates to the Add Customer page.
+         */
         public static User getUser(String userName) throws SQLException, Exception {
 
             Connection conn = DBConnection.startConnection();
@@ -50,7 +58,10 @@ public class DBDAO {
             DBConnection.closeConnection();
             return null;
         }
-
+        /**
+         * Retrieves data of all users.
+         *
+         */
         public static ObservableList<User> getAllUsers() throws SQLException, Exception {
             ObservableList<User> allUsers = FXCollections.observableArrayList();
             System.out.println("Before connection");
@@ -73,7 +84,11 @@ public class DBDAO {
             DBConnection.closeConnection();
             return allUsers;
         }
-
+        /**
+         * Retrieve data of input customer.
+         *
+         * @param customerName is the name of the customer.
+         */
         public static Customer getCustomer(String customerName) throws SQLException, Exception {
             Connection conn = DBConnection.startConnection();
             String sqlStatement = "select * from customers where customer_name = " + customerName + ";";
@@ -98,7 +113,10 @@ public class DBDAO {
             return null;
         }
 
-
+        /**
+         * Gets all customer data.
+         *
+         */
         public static ObservableList<Customer> getAllCustomers() throws SQLException, Exception {
             System.out.println("Before customer connection");
             Connection conn = DBConnection.startConnection();
@@ -125,7 +143,10 @@ public class DBDAO {
             return allCustomers;
         }
 
+        /**
+         * Gets all appointment data.
 
+         */
         public static ObservableList<Appointment> getAllAppointments() throws SQLException {
             System.out.println("before appointment connection");
             Connection conn = DBConnection.startConnection();
@@ -151,7 +172,16 @@ public class DBDAO {
                 int customerId = rs.getInt("customer_id");
                 int userId = rs.getInt("user_id");
 
-                Appointment appt = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
+                Contact contact = null;
+
+                for (Contact cont : allContacts) {
+                    if (contactId == cont.getId()) {
+                        contact = cont;
+                        break;
+                    }
+                }
+
+                Appointment appt = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contact);
                 allAppointments.add(appt);
             }
             DBConnection.closeConnection();
@@ -160,7 +190,10 @@ public class DBDAO {
 
         }
 
-
+        /**
+         * Sets data for all countries.
+         *
+         */
         public static void setAllCountries() throws SQLException {
 
             Connection conn = DBConnection.startConnection();
@@ -184,19 +217,21 @@ public class DBDAO {
 
         }
 
-
+        /**
+         * Gets data for all countries.
+         *
+         * @return a list of all countries.
+         */
         public static ObservableList<Country> getAllCountries() throws IOException {
             return allCountries;
         }
 
 
-
-        public static ObservableList<String> getAllCountryNames() throws IOException {
-            for (Country country : allCountries) {
-                allCountryNames.add(country.getCountry());
-            }
-            return allCountryNames;
-        }
+        /**
+         * Sets data for all contacts.
+         *
+         *
+         */
 
         public static void setAllContacts() throws SQLException {
             Connection conn = DBConnection.startConnection();
@@ -221,7 +256,11 @@ public class DBDAO {
 
 
         }
-
+        /**
+         *
+         *
+         * @return a list of all contracts.
+         */
         public static ObservableList<Contact> getAllContacts() {
             return allContacts;
         }

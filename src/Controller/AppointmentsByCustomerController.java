@@ -44,6 +44,13 @@ public class AppointmentsByCustomerController implements Initializable {
     @FXML
     private Label apptsScheduled;
 
+
+    /**
+     * This method uses a lambda expression to create a filtered list of appointments in order to know how
+     * many appointments are assocated with the selected customer.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActChooseCustomer(ActionEvent event) {
         ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
@@ -55,6 +62,11 @@ public class AppointmentsByCustomerController implements Initializable {
         apptsScheduled.setText(String.valueOf(filteredAppointments.size()));
     }
 
+    /**
+     * This method navigates back to the reports menu.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActGoBack(ActionEvent event) throws IOException {
         sceneManage("/View/Reports.fxml", event);

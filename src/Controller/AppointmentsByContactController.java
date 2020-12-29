@@ -65,10 +65,15 @@ public class AppointmentsByContactController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> customerIdCol;
 
+    /**
+     * This method adds the contact information to a combobox for the user to choose from. It uses a lambda expression to create a filtered list.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActChooseContact(ActionEvent event) {
         ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
-            if(contactList.getSelectionModel().getSelectedItem().getId() == a.getContactId())
+            if(contactList.getSelectionModel().getSelectedItem().equals(a.getContact()))
                 return true;
             return false;
 
@@ -77,6 +82,11 @@ public class AppointmentsByContactController implements Initializable {
         contactApptTbl.setItems(filteredAppointments);
     }
 
+    /**
+     * This method exits back to the main dashboard.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActGoBack(ActionEvent event) throws IOException {
         sceneManage("/View/Reports.fxml", event);

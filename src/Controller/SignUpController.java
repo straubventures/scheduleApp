@@ -57,11 +57,21 @@ public class SignUpController {
     @FXML
     private Label userConfirmPassword;
 
+    /**
+     * Navigates to main dashboard.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActCancel(ActionEvent event) throws IOException {
         sceneManage("/view/Login.fxml", event);
     }
 
+    /**
+     * Saves user.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onSubmitCreateUser(ActionEvent event) throws SQLException, IOException {
         Connection conn =  DBConnection.startConnection();

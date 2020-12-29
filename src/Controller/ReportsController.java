@@ -36,16 +36,32 @@ public class ReportsController {
     @FXML
     private Button apptsByCustomer;
 
+    /**
+     * Navigates to contact report.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActByContact(ActionEvent event) throws IOException {
         sceneManage("/View/AppointmentsByContact.fxml", event);
     }
 
+
+    /**
+     * Navigates to customer report.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActByCustomer(ActionEvent event) throws IOException {
         sceneManage("/View/AppointmentsByCustomer.fxml", event);
     }
 
+    /**
+     * Navigates to month/type report.
+     *
+     * @param event navigates to the Add Customer page.
+     */
     @FXML
     void onActByMonth(ActionEvent event) throws IOException {
         sceneManage("/View/AppointmentsByMonth.fxml", event);

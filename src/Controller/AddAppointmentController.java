@@ -126,17 +126,31 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ComboBox<Contact> contactList;
 
+    /**
+     * This method cancels the appointment.
+     *
+     * @param event   is for the event handler that triggers the switch
+     */
     @FXML
     void onActCancelAppt(ActionEvent event) throws IOException {
         sceneManage("/View/Dashboard.fxml", event);
     }
 
+    /**
+     * This method listens for the choosing of a contact.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActChooseContact(ActionEvent event) {
 
     }
 
-
+    /**
+     * This method adds the appointment information to MySQL and a list.
+     *
+     * @param event   is for the event handler.
+     */
     @FXML
     void onActAddAppt(ActionEvent event) throws SQLException, IOException {
 
@@ -239,10 +253,17 @@ public class AddAppointmentController implements Initializable {
 
                             int customerId = Integer.parseInt(apptCustIdTxt.getText());
                             int userId = Integer.parseInt(apptUserIdTxt.getText());
-                            int contactId = contactList.getSelectionModel().getSelectedItem().getId();
+
+                            if (contactList.getSelectionModel().isEmpty()) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setContentText("Please select a contact.");
+                                alert.showAndWait();
+
+                            } else {
+                                Contact contact = contactList.getSelectionModel().getSelectedItem();
 
 
-                            //Go from EST to system default
+                                //Go from EST to system default
 
 //            System.out.println("Local to UTC Start" + localStartToUTC);
 //            System.out.println("Local to UTC End" + localEndToUTC);
@@ -251,33 +272,34 @@ public class AddAppointmentController implements Initializable {
 //            System.out.println("UTC to Local Start" + utcStartToLocal);
 //            System.out.println("UTC to Local End" + utcEndToLocal);
 
-                            Connection conn = DBConnection.startConnection();
+                                Connection conn = DBConnection.startConnection();
 
-                            //Key to keys for prepared statements
+                                //Key to keys for prepared statements
 
-                            String sqlStatement = "INSERT INTO appointments VALUES(?,?,?,?,?,?,?,NOW(), 'script',NOW(), 'script',?,?,?);";
-                            PreparedStatement pSqlStatement = DBConnection.startConnection().prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS);
+                                String sqlStatement = "INSERT INTO appointments VALUES(?,?,?,?,?,?,?,NOW(), 'script',NOW(), 'script',?,?,?);";
+                                PreparedStatement pSqlStatement = DBConnection.startConnection().prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS);
 
-                            pSqlStatement.setInt(1, id);
-                            pSqlStatement.setString(2, title);
-                            pSqlStatement.setString(3, description);
-                            pSqlStatement.setString(4, location);
-                            pSqlStatement.setString(5, type);
-                            pSqlStatement.setTimestamp(6, start);
-                            pSqlStatement.setTimestamp(7, end);
-                            pSqlStatement.setInt(8, customerId);
-                            pSqlStatement.setInt(9, userId);
-                            pSqlStatement.setInt(10, contactId);
+                                pSqlStatement.setInt(1, id);
+                                pSqlStatement.setString(2, title);
+                                pSqlStatement.setString(3, description);
+                                pSqlStatement.setString(4, location);
+                                pSqlStatement.setString(5, type);
+                                pSqlStatement.setTimestamp(6, start);
+                                pSqlStatement.setTimestamp(7, end);
+                                pSqlStatement.setInt(8, customerId);
+                                pSqlStatement.setInt(9, userId);
+                                pSqlStatement.setInt(10, contact.getId());
 
-                            DBQuery.setStatement(conn);
+                                DBQuery.setStatement(conn);
 
-                            Statement statement = DBQuery.getStatement();
-                            pSqlStatement.execute();
+                                Statement statement = DBQuery.getStatement();
+                                pSqlStatement.execute();
 
-                            Appointment newAppt = new Appointment(id, title, description, location, type, start.toLocalDateTime(), end.toLocalDateTime(), customerId, userId, contactId);
-                            allAppointments.add(newAppt);
-                            DBConnection.closeConnection();
-                            sceneManage("/View/Dashboard.fxml", event);
+                                Appointment newAppt = new Appointment(id, title, description, location, type, start.toLocalDateTime(), end.toLocalDateTime(), customerId, userId, contact);
+                                allAppointments.add(newAppt);
+                                DBConnection.closeConnection();
+                                sceneManage("/View/Dashboard.fxml", event);
+                            }
                         }
                     }
                 }
@@ -288,6 +310,7 @@ public class AddAppointmentController implements Initializable {
             alert.showAndWait();
         }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb){

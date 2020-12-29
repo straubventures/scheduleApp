@@ -1,5 +1,10 @@
 package Model;
 
+/**
+ * Stores customer data.
+ *
+ *
+ */
 public class Customer {
     private String name;
     private String phone;
@@ -7,7 +12,6 @@ public class Customer {
     private int id;
     private String postalCode;
     private int divisionId;
-
 
 
     public Customer(int id, String name, String zip, String address, String phone, int dId) {
