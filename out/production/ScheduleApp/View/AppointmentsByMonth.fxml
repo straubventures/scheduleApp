@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="572.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AppointmentsByMonthController">
+   <children>
+      <Button fx:id="backBtn" layoutX="262.0" layoutY="268.0" mnemonicParsing="false" onAction="#onActGoBack" text="Back" />
+      <ComboBox fx:id="monthList" layoutX="210.0" layoutY="111.0" onAction="#onActChooseMonth" prefWidth="150.0" promptText="Choose Month" />
+      <Label layoutX="133.0" layoutY="193.0" prefHeight="17.0" prefWidth="155.0" text="Appointments this month:" />
+      <Label fx:id="numberOfAppts" layoutX="334.0" layoutY="193.0" prefHeight="17.0" prefWidth="57.0" text="0" />
+   </children>
+</AnchorPane>
