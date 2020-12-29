@@ -63,8 +63,8 @@ public class SignUpController {
     }
 
     @FXML
-    void onSubmitCreateUser(ActionEvent event) throws SQLException {
-        Connection conn =  DBConnection.conn;
+    void onSubmitCreateUser(ActionEvent event) throws SQLException, IOException {
+        Connection conn =  DBConnection.startConnection();
 
         DBQuery.setStatement(conn); //Create Statement object
         Statement statement = DBQuery.getStatement(); // Get Statement reference
@@ -73,12 +73,17 @@ public class SignUpController {
         String insertStatement = "INSERT INTO users(user_name, password) VALUES ('"+ usernameTxt.getText() + "', '" + passwordTxt.getText() + "');";
 
 
+
         //Execute statement
         statement.execute(insertStatement);
         if (statement.getUpdateCount() > 0)
             System.out.println(statement.getUpdateCount() + " row(s) affected!");
         else
             System.out.println("No change.");
+
+        DBConnection.closeConnection();
+
+        sceneManage("/view/Login.fxml", event);
 
     }
 }

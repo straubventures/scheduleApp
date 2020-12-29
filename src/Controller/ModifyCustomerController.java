@@ -53,7 +53,7 @@ public class ModifyCustomerController implements Initializable {
     private TextField custPhoneTxt;
 
     @FXML
-    private TextField custAddressTxt;
+    private TextField custStreetAddressTxt;
 
     @FXML
     private TextField custZipCodeTxt;
@@ -80,25 +80,28 @@ public class ModifyCustomerController implements Initializable {
     private TextField idTxt;
 
     @FXML
-    private ComboBox<String> country;
+    private ComboBox<Country> country;
 
     @FXML
-    private ComboBox<String> fLDivision;
+    private ComboBox<Division> fLDivision;
+
+    @FXML
+    private Label custAddressLbl2;
+
+    @FXML
+    private Label custCityLbl;
+
+    @FXML
+    private TextField custStreetAddress2Txt;
+
+    @FXML
+    private TextField custCityTxt;
 
     @FXML
     void onActChooseCountry(ActionEvent event) throws SQLException, IOException {
-        String countryName =  country.getSelectionModel().getSelectedItem();
-        for (Country selectedCountry : allCountries) {
-            if (selectedCountry.getCountry().equals(countryName)) {
-                System.out.println("Divisions found: " + selectedCountry.setAllDivisions());
-                fLDivision.setItems(selectedCountry.getAllDivisionNames());
-//                selectedCountry.getAllDivisionNames().clear();
-//                selectedCountry.getAllDivisions().clear();
-            } else System.out.println("No Divisions found");
-        }
+        Country selectedCountry = country.getSelectionModel().getSelectedItem();
+        fLDivision.setItems(selectedCountry.getAllDivisions());
     }
-
-
     @FXML
     void onActCancelCust(ActionEvent event) throws IOException {
         sceneManage("/View/Dashboard.fxml", event);
@@ -109,24 +112,10 @@ public class ModifyCustomerController implements Initializable {
         int id = Integer.parseInt(idTxt.getText());
         String name = custNameTxt.getText();
         String phone = custPhoneTxt.getText();
-        String address = custAddressTxt.getText();
+        String address = custStreetAddressTxt.getText() + ", " + custStreetAddress2Txt.getText() + " " + custCityTxt.getText();
         String postalCode = custZipCodeTxt.getText();
 
-        String countryChoice = country.getSelectionModel().getSelectedItem();
-        int divisionNum = 0;
-
-        for (Country country : allCountries) {
-            if (countryChoice.equals(country.getCountry())) {
-                for (Division division : country.getAllDivisions()) {
-                    if (fLDivision.getSelectionModel().getSelectedItem().equals(division.getDivision())) {
-                        divisionNum = division.getDivisionId();
-                    }
-
-                    //get division id
-                }
-
-            }
-        }
+        int divisionNum = fLDivision.getSelectionModel().getSelectedItem().getDivisionId();
 
         Connection conn = DBConnection.startConnection();
         String sqlStatement = "UPDATE customers SET Customer_Id = '" + id + "', Customer_Name = '" + name + "', Address = '" + address + "', Postal_Code = '" + postalCode + "', Phone = '" + phone + "', Create_Date = NOW(), Created_By = 'admin', Last_Update = NOW(), Last_Updated_By = 'admin', Division_ID = '" + divisionNum + "' WHERE Customer_Id = " + id + ";";
@@ -160,25 +149,42 @@ public class ModifyCustomerController implements Initializable {
                 idTxt.setText(String.valueOf(customer.getId()));
                 custNameTxt.setText(String.valueOf(customer.getName()));
                 custPhoneTxt.setText(String.valueOf(customer.getPhone()));
-                custAddressTxt.setText(String.valueOf(customer.getAddress()));
+
+                /** ALL KINDS OF BAD RIGHT HERE
+                 *
+                 * 
+                if (customer.getAddress().contains(",")) { //NEEDS TO BE FIXED!!!!!!!!!!!!!!!!!!
+                    int commaIndex = customer.getAddress().indexOf(",");
+                    System.out.println("Comma Index: " + commaIndex);
+                    custStreetAddressTxt.setText(customer.getAddress().substring(0, commaIndex - 1));
+
+                    String newAddress = customer.getAddress().substring(commaIndex);
+                    commaIndex = customer.getAddress().indexOf(",");
+                    System.out.println("Comma Index: " + commaIndex);
+                    custStreetAddress2Txt.setText(newAddress.substring(1, commaIndex - 1));
+
+                    newAddress = customer.getAddress().substring(commaIndex);
+                    custCityTxt.setText(newAddress.substring(commaIndex + 1));
+
+                    System.out.println("Address = " + custStreetAddressTxt + " " + custStreetAddress2Txt + " " + custCityTxt);
+
+                }
+
+                 */
+
+
                 custZipCodeTxt.setText(String.valueOf(customer.getPostalCode()));
-
                 for (Country country1 : allCountries) {
-                    System.out.println(allCountries);
                     country1.setAllDivisions();
-
                     for (Division div : country1.getAllDivisions()) {
-
                         if (customer.getDivisionId() == div.getDivisionId()) {
-
-                            fLDivision.getSelectionModel().select(div.getDivision());
+                            fLDivision.setItems(country1.getAllDivisions());
+                            fLDivision.getSelectionModel().select(div);
                             for (Country country3 : allCountries) {
                                 if (country3.getCountryId() == div.getCountryId()) {
-                                    country.getSelectionModel().select(country1.getCountry());
+                                    country.getSelectionModel().select(country1);
                                 }
                             }
-
-
                         }
 
                     }
@@ -191,13 +197,8 @@ public class ModifyCustomerController implements Initializable {
         }
 
         public void initialize(URL url, ResourceBundle rb) {
-            try {
 
-                    getAllCountryNames();
-                 country.setItems(allCountryNames);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                 country.setItems(allCountries);
 
         }
     }

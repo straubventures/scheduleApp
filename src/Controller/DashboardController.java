@@ -56,6 +56,9 @@ public class DashboardController implements Initializable {
     private Label uIText;
 
     @FXML
+    private Button reports;
+
+    @FXML
     private TableView<Appointment> apptTbl;
 
     @FXML
@@ -121,6 +124,22 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> apptCustomerIdCol;
 
+    @FXML
+    private RadioButton allAppts;
+
+    @FXML
+    private RadioButton apptsThisMonth;
+
+    @FXML
+    private RadioButton apptsThisWeek;
+
+
+
+    @FXML
+    void onActReports(ActionEvent event) throws IOException {
+        sceneManage("/View/Reports.fxml", event);
+    }
+
 
     /**
      * This handles the add appointment button.
@@ -130,6 +149,87 @@ public class DashboardController implements Initializable {
     @FXML
     void onActAddAppt(ActionEvent event) throws IOException {
         sceneManage("/View/AddAppointment.fxml", event);
+    }
+
+    @FXML
+    void onActShowAll(ActionEvent event) {
+        try {
+            allAppointments.clear();
+            getAllAppointments();
+            apptTbl.setItems(allAppointments);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.showAndWait();
+        }
+
+        apptIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        apptDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        apptLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        apptContactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+    }
+
+
+    @FXML
+    void onActThisMonth(ActionEvent event) {
+        try {
+            ObservableList<Appointment> filteredMonthlyAppointments = allAppointments.filtered(a -> {
+                if (a.getStart().getMonth().equals(LocalDateTime.now().getMonth()) && a.getStart().isBefore(LocalDateTime.now().plusDays(32)) )
+                    return true;
+                return false;
+            });
+
+            allAppointments.clear();
+            getAllAppointments();
+            apptTbl.setItems(filteredMonthlyAppointments);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.showAndWait();
+        }
+
+        apptIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        apptDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        apptLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        apptContactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+    }
+
+
+    @FXML
+    void onActThisWeek(ActionEvent event) {
+        try {
+            ObservableList<Appointment> filteredWeeklyAppointments = allAppointments.filtered(a -> {
+                if (a.getStart().isBefore(LocalDateTime.now().plusDays(7)) && a.getStart().isAfter(LocalDateTime.now()) || a.getStart().isEqual(LocalDateTime.now().plusDays(7)) && a.getStart().isAfter(LocalDateTime.now()))
+                    return true;
+                return false;
+            });
+
+            allAppointments.clear();
+            getAllAppointments();
+            apptTbl.setItems(filteredWeeklyAppointments);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.showAndWait();
+        }
+
+        apptIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        apptDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        apptLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        apptContactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        apptCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+
     }
 
     /**
@@ -156,21 +256,24 @@ public class DashboardController implements Initializable {
                 Optional<ButtonType> result = confirmation.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     Connection conn = DBConnection.startConnection();
-                    Appointment selected = (Appointment) apptTbl.getSelectionModel().getSelectedItem();
+                    Appointment selected = apptTbl.getSelectionModel().getSelectedItem();
                     String sqlStatement = "delete from appointments where appointment_id = " + selected.getId() + ";";
 
                     DBQuery.setStatement(conn);
                     Statement statement = DBQuery.getStatement();
 
                     statement.execute(sqlStatement);
-                    for (Appointment appt : allAppointments) { //NEEDS WORK
+                    DBConnection.closeConnection();
+
+           for (Appointment appt : allAppointments) {
                         if (appt.getId() == selected.getId()) {
                             allAppointments.remove(appt);
-
-
-                        } else System.out.println("Failed to remove from list");
+                            uIText.setText("Appointment ID: " + selected.getId() + " Appointment Type: " + selected.getType());
+                            break;
+                        } else System.out.println("Nothing found");
 
                     }
+
                 }
             }
         } catch (NullPointerException | SQLException ex) {
@@ -185,7 +288,7 @@ public class DashboardController implements Initializable {
     void onActDeleteCust(ActionEvent event) {
         try {
             if ((custTbl.getSelectionModel().getSelectedItem() == null)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a customer first");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a customer first by clicking on their row in the Customer Table.");
                 alert.showAndWait();
                 return;
             } else {
@@ -209,10 +312,11 @@ public class DashboardController implements Initializable {
                         } else System.out.println("Failed to remove from list");
 
                     }
+                    DBConnection.closeConnection();
                 }
             }
         } catch (NullPointerException | SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Exeption: " + ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Exception: " + ex.getMessage());
             alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
@@ -294,9 +398,11 @@ public class DashboardController implements Initializable {
 
         }
     }
-//    /** This handles the search parts textfield.
-//     @param event handles the filtering of the results */
-//    @FXML
+
+    public void onActSignOut (ActionEvent event) throws IOException {
+        sceneManage("/View/Login.fxml", event);
+    }
+//   s
 //    void onActSearchParts(KeyEvent event) throws IOException {
 //        try {
 //            partTblView.setItems(lookupPart(partSearchTxt.getText()));
@@ -332,17 +438,15 @@ public class DashboardController implements Initializable {
      @param url is the location where this class is found.
      @param rb helps facilitate actions with objects.
      */
+
     @Override
     public void initialize (URL url, ResourceBundle rb) {
 
         ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
-            if (a.getStart().isEqual(LocalDateTime.now().plusMinutes(15)) || a.getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
-
-                System.out.println("Got one!");
+            if (a.getStart().isEqual(LocalDateTime.now().plusMinutes(15)) || a.getStart().isEqual(LocalDateTime.now()) || a.getStart().isBefore(LocalDateTime.now().plusMinutes(15)) && a.getStart().isAfter(LocalDateTime.now())) {
                 uIText.setText("ID: " + a.getId() + " Date: " + a.getStart().toLocalDate() + "Time: " + a.getStart().atZone(ZoneId.systemDefault()));
                 return true;
             }
-            System.out.println("Missed one!");
             return false;
 
         });
@@ -356,7 +460,7 @@ public class DashboardController implements Initializable {
 
             try {
                 allCustomers.clear();
-                custTbl.setItems(allCustomers);
+//                custTbl.setItems(allCustomers);
                 getAllCustomers();
                 custTbl.setItems(allCustomers);
             } catch (Exception e) {
@@ -371,7 +475,7 @@ public class DashboardController implements Initializable {
 
             try {
                 allAppointments.clear();
-                apptTbl.setItems(allAppointments);
+//                apptTbl.setItems(allAppointments);
                 getAllAppointments();
                 apptTbl.setItems(allAppointments);
             } catch (Exception e) {

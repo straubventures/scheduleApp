@@ -63,4 +63,9 @@ public class Customer {
         this.postalCode = postalCode;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

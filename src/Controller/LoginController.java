@@ -13,13 +13,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import javax.security.auth.login.LoginContext;
 import javax.xml.stream.Location;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -65,6 +68,54 @@ public class LoginController implements Initializable {
     private Text captionLbl;
 
     @FXML
+    void onAction(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void onEnter(KeyEvent event) throws Exception {
+        if (event.getCode().getCode() == 13) {
+            Locale currentLocale = Locale.getDefault();
+            ResourceBundle rbund = ResourceBundle.getBundle("Main/Nat", currentLocale);
+            boolean userFound = false;
+            for (User user : DBDAO.UserDaoImpl.getAllUsers()) {
+                if (String.valueOf(user.getPassword()).equals(passwordTxt.getText()) && String.valueOf(user.getUsername()).equals(String.valueOf(userNameTxt.getText()))) {
+                    System.out.println("Login Successful");
+                    userFound = true;
+                    // Log User successful login
+                    String filename = "login_activity.txt", login;
+                    FileWriter fileWriter = new FileWriter(filename, true);
+                    PrintWriter outputFile = new PrintWriter(fileWriter);
+                    outputFile.println(user.getUsername() + " successfully logged in on this date: " + LocalDateTime.now());
+                    outputFile.close();
+                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("/View/Dashboard.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
+
+                    break;
+                }
+                else System.out.println("Code is inaccurate.");
+            }
+
+            if (userFound == false) {
+                String filename = "login_activity.txt", login;
+                FileWriter fileWriter = new FileWriter(filename, true);
+                PrintWriter outputFile = new PrintWriter(fileWriter);
+                outputFile.println(userNameTxt.getText() + " FAILED to log in on this date: " + LocalDateTime.now());
+                outputFile.close();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(rbund.getString("Error"));
+                alert.setTitle(rbund.getString("Error"));
+                alert.setContentText(rbund.getString("User") + "/" + rbund.getString("Password") + " " +rbund.getString("is") + " " + rbund.getString("incorrect") + ".");
+                alert.showAndWait();
+
+            }
+        }
+        }
+
+    @FXML
     void onActGoToSignUpPage(ActionEvent event) throws IOException {
         sceneManage("/view/SignUp.fxml", event);
     }
@@ -77,21 +128,34 @@ public class LoginController implements Initializable {
         for (User user : DBDAO.UserDaoImpl.getAllUsers()) {
             if (String.valueOf(user.getPassword()).equals(passwordTxt.getText()) && String.valueOf(user.getUsername()).equals(String.valueOf(userNameTxt.getText()))) {
                 System.out.println("Login Successful");
+                userFound = true;
+                // Log User successful login
+                String filename = "login_activity.txt", login;
+                FileWriter fileWriter = new FileWriter(filename, true);
+                PrintWriter outputFile = new PrintWriter(fileWriter);
+                outputFile.println(user.getUsername() + " successfully logged in on this date: " + LocalDateTime.now());
+                outputFile.close();
                 sceneManage("/View/Dashboard.fxml", event);
-                return;
 
+                break;
             }
         }
-            if (userFound == false) {
 
+            if (userFound == false) {
+                String filename = "login_activity.txt", login;
+                FileWriter fileWriter = new FileWriter(filename, true);
+                PrintWriter outputFile = new PrintWriter(fileWriter);
+                outputFile.println(userNameTxt.getText() + " FAILED to log in on this date: " + LocalDateTime.now());
+                outputFile.close();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(rbund.getString("Error"));
                 alert.setTitle(rbund.getString("Error"));
-                alert.setContentText(rbund.getString("User") + " " + rbund.getString("not") + " " + rbund.getString("found") + ".");
+                alert.setContentText(rbund.getString("User") + "/" + rbund.getString("Password") + " " +rbund.getString("is") + " " + rbund.getString("incorrect") + ".");
                 alert.showAndWait();
 
             }
         }
+
 
         @Override
         public void initialize(URL url, ResourceBundle rb) {

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Appointment;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
@@ -17,10 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 import static Controller.DashboardController.idCount;
@@ -47,7 +45,7 @@ public class AddCustomerController implements Initializable {
     private TextField custPhoneTxt;
 
     @FXML
-    private TextField custAddressTxt;
+    private TextField custStreetAddressTxt;
 
     @FXML
     private TextField custZipCodeTxt;
@@ -59,7 +57,7 @@ public class AddCustomerController implements Initializable {
     private Label custPhoneLbl;
 
     @FXML
-    private Label custAddressLbl;
+    private Label custStreetAddressLbl;
 
     @FXML
     private Label custZipCodeLbl;
@@ -71,83 +69,89 @@ public class AddCustomerController implements Initializable {
     private Button cancelBtn;
 
     @FXML
-    private ComboBox<String> country;
+    private ComboBox<Country> country;
 
     @FXML
-    private ComboBox<String> fLDivision;
+    private ComboBox<Division> fLDivision;
+
+    @FXML
+    private Label custStreetAddress2Lbl;
+
+    @FXML
+    private TextField custStreetAddress2Txt;
+
+    @FXML
+    private Label custCityLbl;
+
+    @FXML
+    private TextField custCityTxt;
+
+
 
     @FXML
     void onActChooseCountry(ActionEvent event) throws SQLException, IOException {
-        String countryName =  country.getSelectionModel().getSelectedItem();
-        for (Country selectedCountry : allCountries) {
-            if (selectedCountry.getCountry().equals(countryName)) {
-                System.out.println("Divisions found: " + selectedCountry.setAllDivisions());
-                fLDivision.setItems(selectedCountry.getAllDivisionNames());
-//                selectedCountry.getAllDivisionNames().clear();
-//                selectedCountry.getAllDivisions().clear();
-            } else System.out.println("No Divisions found");
-        }
-    }
 
-    @FXML
-    void onActCancelCust(ActionEvent event) throws IOException {
 
-        sceneManage("/View/Dashboard.fxml", event);
+
+
+        Country selectedCountry = country.getSelectionModel().getSelectedItem();
+        selectedCountry.setAllDivisions();
+        fLDivision.setItems(selectedCountry.getAllDivisions());
 
     }
 
-    @FXML
-    void onActSaveCust(ActionEvent event) throws SQLException, IOException {
-
-
-        int id = idCount * 40 + Math.toIntExact(Math.round(Math.random() * 1000));
-        idCount++;
-        String name = custNameTxt.getText();
-        String phone = custPhoneTxt.getText();
-        String address = custAddressTxt.getText();
-        String postalCode = custZipCodeTxt.getText();
-        String countryChoice = country.getSelectionModel().getSelectedItem();
-        int divisionNum = 0;
-
-
-        for (Country country : allCountries) {
-            if (countryChoice.equals(country.getCountry())) {
-                for (Division division : country.getAllDivisions()) {
-                    if (fLDivision.getSelectionModel().getSelectedItem().equals(division.getDivision())) {
-                        divisionNum = division.getDivisionId();
-                    }
-
-                    //get division id
-                }
-
-            }
-
-
-            Connection conn = DBConnection.startConnection();
-            String sqlStatement = "INSERT INTO customers VALUES('" + id + "', '" + name + "', '" + address + "', '" + postalCode + "', '" + phone + "', NOW(), 'admin', NOW(), 'admin', '" + divisionNum + "');";
-
-            DBQuery.setStatement(conn);
-            Statement statement = DBQuery.getStatement();
-            statement.execute(sqlStatement);
-
-            Customer newCust = new Customer(id, name, postalCode, address, phone, 12);
-
-            allCustomers.add(newCust);
-
-            DBConnection.closeConnection();
+        @FXML
+        void onActCancelCust (ActionEvent event) throws IOException {
 
             sceneManage("/View/Dashboard.fxml", event);
 
         }
-    }
+
+        @FXML
+        void onActSaveCust (ActionEvent event) throws SQLException, IOException {
+
+
+
+
+            int id = idCount * 40 + Math.toIntExact(Math.round(Math.random() * 1000));
+            idCount++;
+            String name = custNameTxt.getText();
+            String phone = custPhoneTxt.getText();
+            String address = custStreetAddressTxt.getText() + " " + custStreetAddress2Txt.getText() + " " + custCityTxt.getText();
+            String postalCode = custZipCodeTxt.getText();
+            int divisionNum = fLDivision.getSelectionModel().getSelectedItem().getDivisionId();
+
+
+                Connection conn = DBConnection.startConnection();
+                String sqlStatement = "INSERT INTO customers VALUES(?,?,?,?,?, NOW(), 'admin', NOW(), 'admin',?);";
+
+                System.out.println(divisionNum);
+                PreparedStatement pSqlStatement = DBConnection.startConnection().prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS);
+
+                pSqlStatement.setInt(1, id);
+                pSqlStatement.setString(2, name);
+                pSqlStatement.setString(3, address);
+                pSqlStatement.setString(4, postalCode);
+                pSqlStatement.setString(5, phone);
+                pSqlStatement.setInt(6, divisionNum);
+
+                DBQuery.setStatement(conn);
+                pSqlStatement.execute();
+
+                Customer newCust = new Customer(id, name, postalCode, address, phone, divisionNum);
+
+                allCustomers.add(newCust);
+
+                DBConnection.closeConnection();
+
+                sceneManage("/View/Dashboard.fxml", event);
+
+            }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            getAllCountryNames();
-            country.setItems(allCountryNames);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        country.setItems(allCountries);
+
     }
 }

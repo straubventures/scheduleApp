@@ -1,0 +1,74 @@
+Application started: 2020-12-28T15:54:40.018090
+Application started: 2020-12-28T15:56:00.052075
+Application started: 2020-12-28T15:58:25.489051
+Application started: 2020-12-28T15:58:34.692140
+test logged in on this date: 2020-12-28T15:58:46.857658
+Application started: 2020-12-28T16:01:16.269658
+asdf failed to log in on this date: 2020-12-28T16:01:52.682519
+Application started: 2020-12-28T16:36:01.758133
+test successfully logged in on this date: 2020-12-28T16:36:17.657290
+Application started: 2020-12-28T16:40:19.432759
+Application started: 2020-12-28T16:41:17.165268
+test successfully logged in on this date: 2020-12-28T16:41:33.735836
+Application started: 2020-12-28T16:43:49.906329
+test successfully logged in on this date: 2020-12-28T16:44:04.124823
+Application started: 2020-12-28T16:48:53.800513
+test successfully logged in on this date: 2020-12-28T16:49:06.523353
+Application started: 2020-12-28T16:51:19.754836
+test successfully logged in on this date: 2020-12-28T16:51:35.584788
+Application started: 2020-12-28T16:54:57.839821
+test successfully logged in on this date: 2020-12-28T16:55:09.942903
+Application started: 2020-12-29T06:45:36.366534
+Application started: 2020-12-29T06:46:04.803827
+test successfully logged in on this date: 2020-12-29T06:46:19.562245
+Application started: 2020-12-29T06:47:36.930002
+test successfully logged in on this date: 2020-12-29T06:47:49.202149
+Application started: 2020-12-29T06:51:38.072421
+test successfully logged in on this date: 2020-12-29T06:51:49.858743
+asdk;fj FAILED to log in on this date: 2020-12-29T06:53:13.100064
+test FAILED to log in on this date: 2020-12-29T06:53:20.205879
+Application started: 2020-12-29T06:57:36.662376
+test FAILED to log in on this date: 2020-12-29T06:57:51.701619
+test FAILED to log in on this date: 2020-12-29T06:57:53.519122
+test FAILED to log in on this date: 2020-12-29T06:57:54.693090
+test FAILED to log in on this date: 2020-12-29T06:57:55.495332
+test FAILED to log in on this date: 2020-12-29T06:57:55.648591
+test FAILED to log in on this date: 2020-12-29T06:57:55.810726
+Application started: 2020-12-29T06:59:52.579690
+test FAILED to log in on this date: 2020-12-29T07:00:04.656032
+test FAILED to log in on this date: 2020-12-29T07:00:06.670157
+test FAILED to log in on this date: 2020-12-29T07:00:07.428091
+test FAILED to log in on this date: 2020-12-29T07:00:07.610485
+test FAILED to log in on this date: 2020-12-29T07:00:07.807735
+test FAILED to log in on this date: 2020-12-29T07:00:07.978972
+Application started: 2020-12-29T07:02:09.292491
+test FAILED to log in on this date: 2020-12-29T07:02:23.382028
+test FAILED to log in on this date: 2020-12-29T07:02:26.550465
+test FAILED to log in on this date: 2020-12-29T07:02:27.844814
+test FAILED to log in on this date: 2020-12-29T07:02:28.012240
+test FAILED to log in on this date: 2020-12-29T07:02:28.172842
+test FAILED to log in on this date: 2020-12-29T07:02:28.325940
+Application started: 2020-12-29T07:05:09.241004
+test FAILED to log in on this date: 2020-12-29T07:05:27.704521
+Application started: 2020-12-29T17:06:40.752030
+Application started: 2020-12-29T07:09:27.606306
+Application started: 2020-12-29T07:11:45.181155
+test successfully logged in on this date: 2020-12-29T07:11:57.392265
+test FAILED to log in on this date: 2020-12-29T07:12:00.233994
+Application started: 2020-12-29T07:14:22.965259
+test successfully logged in on this date: 2020-12-29T07:14:35.035183
+Application started: 2020-12-29T07:22:46.052675
+test successfully logged in on this date: 2020-12-29T07:23:01.398451
+Application started: 2020-12-29T07:28:44.887499
+test successfully logged in on this date: 2020-12-29T07:28:58.792273
+Application started: 2020-12-29T07:34:00.204034
+Application started: 2020-12-29T07:34:39.625281
+Application started: 2020-12-29T07:35:48.941410
+Application started: 2020-12-29T07:37:14.822889
+Application started: 2020-12-29T07:38:37.320374
+Application started: 2020-12-29T08:08:12.053298
+test successfully logged in on this date: 2020-12-29T08:08:24.251755
+Application started: 2020-12-29T08:09:51.705807
+test successfully logged in on this date: 2020-12-29T08:10:04.394424
+Application started: 2020-12-29T08:13:00.450184
+test successfully logged in on this date: 2020-12-29T08:13:19.761855

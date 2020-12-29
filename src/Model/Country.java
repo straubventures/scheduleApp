@@ -72,4 +72,8 @@ public class Country {
     public ObservableList<Division> getAllDivisions() throws IOException {
         return allDivisions;
     }
+    @Override
+    public String toString() {
+        return country;
+    }
 }

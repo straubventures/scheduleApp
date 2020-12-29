@@ -23,16 +23,22 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TextField fx:id="custNameTxt" GridPane.columnIndex="1" />
             <TextField fx:id="custPhoneTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="custAddressTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="custZipCodeTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="custStreetAddressTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="custZipCodeTxt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="custNameLbl" text="Name" />
             <Label fx:id="custPhoneLbl" text="Phone" GridPane.rowIndex="1" />
-            <Label fx:id="custAddressLbl" text="Address" GridPane.rowIndex="2" />
-            <Label fx:id="custZipCodeLbl" text="Postal Code" GridPane.rowIndex="3" />
+            <Label fx:id="custStreetAddressLbl" text="Street Address" GridPane.rowIndex="2" />
+            <Label fx:id="custZipCodeLbl" text="Postal Code" GridPane.rowIndex="5" />
+            <Label fx:id="custStreetAddress2Lbl" text="Street Address 2" GridPane.rowIndex="3" />
+            <TextField fx:id="custStreetAddress2Txt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="custCityLbl" text="City" GridPane.rowIndex="4" />
+            <TextField fx:id="custCityTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <Text layoutX="224.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Customer" textAlignment="CENTER" wrappingWidth="151.22900390625">
@@ -40,9 +46,9 @@
             <Font size="26.0" />
          </font>
       </Text>
-      <Button fx:id="saveBtn" layoutX="201.0" layoutY="380.0" mnemonicParsing="false" onAction="#onActSaveCust" text="Save" />
-      <Button fx:id="cancelBtn" layoutX="353.0" layoutY="380.0" mnemonicParsing="false" onAction="#onActCancelCust" text="Cancel" />
-      <ComboBox fx:id="country" layoutX="200.0" layoutY="273.0" onAction="#onActChooseCountry" prefHeight="27.0" prefWidth="200.0" promptText="Country" />
-      <ComboBox fx:id="fLDivision" layoutX="200.0" layoutY="333.0" prefHeight="27.0" prefWidth="200.0" promptText="First Level Division" />
+      <Button fx:id="saveBtn" layoutX="201.0" layoutY="541.0" mnemonicParsing="false" onAction="#onActSaveCust" text="Save" />
+      <Button fx:id="cancelBtn" layoutX="372.0" layoutY="541.0" mnemonicParsing="false" onAction="#onActCancelCust" text="Cancel" />
+      <ComboBox fx:id="country" layoutX="200.0" layoutY="442.0" onAction="#onActChooseCountry" prefHeight="27.0" prefWidth="200.0" promptText="Country" />
+      <ComboBox fx:id="fLDivision" layoutX="200.0" layoutY="488.0" prefHeight="27.0" prefWidth="200.0" promptText="First Level Division" />
    </children>
 </AnchorPane>

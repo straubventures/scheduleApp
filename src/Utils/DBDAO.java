@@ -23,6 +23,7 @@ public class DBDAO {
         public static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         public static ObservableList<Country> allCountries = FXCollections.observableArrayList();
         public static ObservableList<String> allCountryNames = FXCollections.observableArrayList();
+        public static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
 
         public static User getUser(String userName) throws SQLException, Exception {
@@ -188,11 +189,41 @@ public class DBDAO {
             return allCountries;
         }
 
+
+
         public static ObservableList<String> getAllCountryNames() throws IOException {
             for (Country country : allCountries) {
                 allCountryNames.add(country.getCountry());
             }
             return allCountryNames;
+        }
+
+        public static void setAllContacts() throws SQLException {
+            Connection conn = DBConnection.startConnection();
+
+            String sqlStatement = "select * from contacts;";
+
+            DBQuery.setStatement(conn);
+            Statement statement = DBQuery.getStatement();
+
+            statement.execute(sqlStatement);
+
+            ResultSet rs = statement.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("contact_id");
+                String name = rs.getString("contact_name");
+                String email = rs.getString("email");
+                Contact newContact = new Contact(id, name, email);
+                allContacts.add(newContact);
+
+            }
+            DBConnection.closeConnection();
+
+
+        }
+
+        public static ObservableList<Contact> getAllContacts() {
+            return allContacts;
         }
     }
 }
