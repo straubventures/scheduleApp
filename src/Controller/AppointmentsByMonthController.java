@@ -65,12 +65,8 @@ public class AppointmentsByMonthController implements Initializable {
                 }
                 System.out.println(a.getStart().getMonth().toString());
                 return false;
-
-
             });
-
             numberOfAppts.setText(String.valueOf(filteredAppointments.size()));
-
             }
 
     /**
@@ -87,14 +83,9 @@ public class AppointmentsByMonthController implements Initializable {
             }
             System.out.println(a.getStart().getMonth().toString());
             return false;
-
-
         });
-
         numberOfAppts.setText(String.valueOf(filteredAppointments.size()));
-
     }
-
 
     /**
      * This method goes back to the reports dashboard.
@@ -127,10 +118,6 @@ public class AppointmentsByMonthController implements Initializable {
         months.add("October");
         months.add("November");
         months.add("December");
-
         monthList.setItems(months);
-
-
-
     }
 }

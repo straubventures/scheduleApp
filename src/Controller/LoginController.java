@@ -89,6 +89,7 @@ public class LoginController implements Initializable {
                 if (String.valueOf(user.getPassword()).equals(passwordTxt.getText()) && String.valueOf(user.getUsername()).equals(String.valueOf(userNameTxt.getText()))) {
                     System.out.println("Login Successful");
                     userFound = true;
+
                     // Log User successful login
                     String filename = "login_activity.txt", login;
                     FileWriter fileWriter = new FileWriter(filename, true);
@@ -103,7 +104,6 @@ public class LoginController implements Initializable {
                     break;
                 }
             }
-
             if (userFound == false) {
                 String filename = "login_activity.txt", login;
                 FileWriter fileWriter = new FileWriter(filename, true);
@@ -115,7 +115,6 @@ public class LoginController implements Initializable {
                 alert.setTitle(rbund.getString("Error"));
                 alert.setContentText(rbund.getString("User") + "/" + rbund.getString("Password") + " " +rbund.getString("is") + " " + rbund.getString("incorrect") + ".");
                 alert.showAndWait();
-
             }
         }
         }
@@ -149,11 +148,9 @@ public class LoginController implements Initializable {
                 outputFile.println(user.getUsername() + " successfully logged in on this date: " + LocalDateTime.now());
                 outputFile.close();
                 sceneManage("/View/Dashboard.fxml", event);
-
                 break;
             }
         }
-
             if (userFound == false) {
                 String filename = "login_activity.txt", login;
                 FileWriter fileWriter = new FileWriter(filename, true);
@@ -165,18 +162,14 @@ public class LoginController implements Initializable {
                 alert.setTitle(rbund.getString("Error"));
                 alert.setContentText(rbund.getString("User") + "/" + rbund.getString("Password") + " " +rbund.getString("is") + " " + rbund.getString("incorrect") + ".");
                 alert.showAndWait();
-
             }
         }
-
 
         @Override
         public void initialize(URL url, ResourceBundle rb) {
 
             Locale currentLocale = Locale.getDefault();
             ResourceBundle rbund = ResourceBundle.getBundle("Main/Nat", currentLocale);
-
-            LocalDateTime ldt = LocalDateTime.now();
             ZonedDateTime zdt = ZonedDateTime.now();
 
             captionLbl.setText(rbund.getString("Where") + " " + rbund.getString("magic") + " " + rbund.getString("happens"));
@@ -186,17 +179,10 @@ public class LoginController implements Initializable {
             userNameTxt.setPromptText(rbund.getString("Username"));
             locationLbl.setText(zdt.getZone().toString());
 
-
-
             System.out.println(currentLocale.getDisplayLanguage());
             System.out.println(currentLocale.getDisplayCountry());
-
             System.out.println(currentLocale.getLanguage());
             System.out.println(currentLocale.getCountry());
-
-
-
-
 
             System.out.println(System.getProperty("user.country"));
             System.out.println(System.getProperty("user.language"));

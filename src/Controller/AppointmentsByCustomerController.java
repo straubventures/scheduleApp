@@ -44,7 +44,6 @@ public class AppointmentsByCustomerController implements Initializable {
     @FXML
     private Label apptsScheduled;
 
-
     /**
      * This method uses a lambda expression to create a filtered list of appointments in order to know how
      * many appointments are assocated with the selected customer.
@@ -58,7 +57,6 @@ public class AppointmentsByCustomerController implements Initializable {
                 return true;
             } else return false;
         });
-
         apptsScheduled.setText(String.valueOf(filteredAppointments.size()));
     }
 
@@ -71,7 +69,6 @@ public class AppointmentsByCustomerController implements Initializable {
     void onActGoBack(ActionEvent event) throws IOException {
         sceneManage("/View/Reports.fxml", event);
     }
-
     public void initialize(URL url, ResourceBundle rb) {
         customerList.setItems(allCustomers);
     }

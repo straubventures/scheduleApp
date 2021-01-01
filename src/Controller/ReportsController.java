@@ -46,7 +46,6 @@ public class ReportsController {
         sceneManage("/View/AppointmentsByContact.fxml", event);
     }
 
-
     /**
      * Navigates to customer report.
      *

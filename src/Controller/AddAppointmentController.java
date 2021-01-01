@@ -139,18 +139,16 @@ public class AddAppointmentController implements Initializable {
     /**
      * This method listens for the choosing of a contact.
      *
-     * @param event   is for the event handler.
+     * @param event   is for the event handler
      */
     @FXML
     void onActChooseContact(ActionEvent event) {
 
     }
 
-    /**
-     * This method adds the appointment information to MySQL and a list.
-     *
-     * @param event   is for the event handler.
-     */
+    /** This method adds the appointment information to MySQL and a list.
+     * @param event   is for the event handler */
+
     @FXML
     void onActAddAppt(ActionEvent event) throws SQLException, IOException {
 
@@ -207,7 +205,7 @@ public class AddAppointmentController implements Initializable {
 
 
                     ZonedDateTime bStartZDT = estBStart.atZone(estZoneId); //Business hours start converted to Zoned Date Time object
-                    ZonedDateTime lStartZDT = ZonedDateTime.of(startDay, startTime, zoneIdLocal); //Business hours in local time
+                    ZonedDateTime lStartZDT = ZonedDateTime.of(startDay, startTime, zoneIdLocal);
 
                     ZonedDateTime bEndZDT = estBEnd.atZone(estZoneId);
                     ZonedDateTime lEndZDT = ZonedDateTime.of(startDay, endTime, zoneIdLocal);
@@ -215,23 +213,18 @@ public class AddAppointmentController implements Initializable {
                     Timestamp start = Timestamp.valueOf(start1);
                     Timestamp end = Timestamp.valueOf(end1);
 
-                    System.out.println(lStartZDT);
-                    System.out.println(lEndZDT);
-                    System.out.println(bStartZDT);
-                    System.out.println(bEndZDT);
-
-                    if (start1.isBefore(lStartZDT.toLocalDateTime()) || start1.isAfter(lEndZDT.toLocalDateTime()) || end1.isAfter(lEndZDT.toLocalDateTime()) || end1.isBefore(lStartZDT.toLocalDateTime())) {
+                    if (lStartZDT.isBefore(bStartZDT) || lStartZDT.isAfter(bEndZDT) || lEndZDT.isAfter(bEndZDT) || lEndZDT.isBefore(bStartZDT)) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("Please place your time within the business hours of 8am-10pm EST.");
                         alert.showAndWait();
                     } else {
 
                         ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
-                            if (a.getStart().isBefore(start1) && a.getEnd().isAfter(end1) || a.getStart().isAfter(start1) && a.getStart().isBefore(end1) || end1.isAfter(a.getStart()) && end1.isBefore(a.getEnd())) {
+                            if (a.getStart().isBefore(start1) && a.getEnd().isAfter(end1) || a.getStart().isAfter(start1) && a.getStart().isBefore(end1) || end1.isAfter(a.getStart()) && end1.isBefore(a.getEnd()) || a.getStart().equals(start1) || a.getStart().equals(end1) || a.getEnd().equals(start1) || a.getEnd().equals(end1)) {
                                 System.out.println("Got one!");
                                 return true;
                             }
-                            System.out.println("Missed one!");
+                            System.out.println(a.getStart());
                             return false;
 
                         });
@@ -245,11 +238,6 @@ public class AddAppointmentController implements Initializable {
                             System.out.println(lEndZDT);
                             System.out.println(bStartZDT);
                             System.out.println(bEndZDT);
-                            //WebX
-
-                            //One date
-                            //Combobox for Customer IDs
-
 
                             int customerId = Integer.parseInt(apptCustIdTxt.getText());
                             int userId = Integer.parseInt(apptUserIdTxt.getText());
@@ -261,20 +249,6 @@ public class AddAppointmentController implements Initializable {
 
                             } else {
                                 Contact contact = contactList.getSelectionModel().getSelectedItem();
-
-
-                                //Go from EST to system default
-
-//            System.out.println("Local to UTC Start" + localStartToUTC);
-//            System.out.println("Local to UTC End" + localEndToUTC);
-//            System.out.println("Local to EST Start" + localStartToEST);
-//            System.out.println("Local to EST end" + localEndToEST);
-//            System.out.println("UTC to Local Start" + utcStartToLocal);
-//            System.out.println("UTC to Local End" + utcEndToLocal);
-
-                                Connection conn = DBConnection.startConnection();
-
-                                //Key to keys for prepared statements
 
                                 String sqlStatement = "INSERT INTO appointments VALUES(?,?,?,?,?,?,?,NOW(), 'script',NOW(), 'script',?,?,?);";
                                 PreparedStatement pSqlStatement = DBConnection.startConnection().prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS);
@@ -290,9 +264,6 @@ public class AddAppointmentController implements Initializable {
                                 pSqlStatement.setInt(9, userId);
                                 pSqlStatement.setInt(10, contact.getId());
 
-                                DBQuery.setStatement(conn);
-
-                                Statement statement = DBQuery.getStatement();
                                 pSqlStatement.execute();
 
                                 Appointment newAppt = new Appointment(id, title, description, location, type, start.toLocalDateTime(), end.toLocalDateTime(), customerId, userId, contact);

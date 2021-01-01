@@ -232,7 +232,6 @@ public class DBDAO {
          *
          *
          */
-
         public static void setAllContacts() throws SQLException {
             Connection conn = DBConnection.startConnection();
 
@@ -253,8 +252,6 @@ public class DBDAO {
 
             }
             DBConnection.closeConnection();
-
-
         }
         /**
          *

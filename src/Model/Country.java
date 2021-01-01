@@ -21,30 +21,59 @@ public class Country {
     private ObservableList<Division> allDivisions = FXCollections.observableArrayList();
     private ObservableList<String> allDivisionNames = FXCollections.observableArrayList();
 
-
+    /** This method is the constructor of the Country class.
+     * @param countryId is the id of the new object.
+     * @param country is the name of the country.
+     *  */
     public Country(int countryId, String country) {
         this.countryId = countryId;
         this.country = country;
 
     }
-
+    /**
+     * Gets the id.
+     *
+     * @return the id of the country.
+     */
     public int getCountryId() {
         return countryId;
     }
+
+    /**
+     * Sets the id.
+     *
+     * @param countryId sets the id of the country.
+     */
 
     public void setCountryId(int countryId) {
         this.countryId = countryId;
     }
 
-
+    /**
+     * Gets the country name.
+     *
+     * @return the name of the country.
+     */
     public String getCountry() {
         return country;
     }
+
+    /**
+     * Sets the name.
+     *
+     * @param country sets the name of the country.
+     */
 
     public void setCountry(String country) {
         this.country = country;
     }
 
+
+    /**
+     * Sets the division list.
+     *
+     * @return list of all Divisions.
+     */
 
     public ObservableList<Division> setAllDivisions() throws SQLException {
         Connection conn = DBConnection.startConnection();
@@ -65,17 +94,30 @@ public class Country {
         DBConnection.closeConnection();
         return allDivisions;
     }
-
+    /**
+     * Gets the list of division names.
+     *
+     * @return the division names of the country.
+     */
     public ObservableList<String> getAllDivisionNames() throws IOException {
         for (Division div : allDivisions) {
             allDivisionNames.add(div.getDivision());
         }
         return allDivisionNames;
     }
-
+    /**
+     * Gets the divisions.
+     *
+     * @return the divisions of the country.
+     */
     public ObservableList<Division> getAllDivisions() throws IOException {
         return allDivisions;
     }
+    /**
+     * Gets the string name.
+     *
+     * @return the string name of the country.
+     */
     @Override
     public String toString() {
         return country;

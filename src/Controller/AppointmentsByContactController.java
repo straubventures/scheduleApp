@@ -78,10 +78,8 @@ public class AppointmentsByContactController implements Initializable {
             return false;
 
         });
-
         contactApptTbl.setItems(filteredAppointments);
     }
-
     /**
      * This method exits back to the main dashboard.
      *
@@ -91,8 +89,6 @@ public class AppointmentsByContactController implements Initializable {
     void onActGoBack(ActionEvent event) throws IOException {
         sceneManage("/View/Reports.fxml", event);
     }
-
-
     public void initialize(URL url, ResourceBundle rb) {
         contactList.setItems(allContacts);
 

@@ -228,7 +228,6 @@ public class DashboardController implements Initializable {
                     return true;
                 return false;
             });
-
             allAppointments.clear();
             getAllAppointments();
             apptTbl.setItems(filteredWeeklyAppointments);
@@ -236,7 +235,6 @@ public class DashboardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.showAndWait();
         }
-
         apptIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         apptDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -293,9 +291,7 @@ public class DashboardController implements Initializable {
                             uIText.setText("Appointment ID: " + selected.getId() + " Appointment Type: " + selected.getType());
                             break;
                         } else System.out.println("Nothing found");
-
                     }
-
                 }
             }
         } catch (NullPointerException | SQLException ex) {
@@ -333,10 +329,7 @@ public class DashboardController implements Initializable {
                         if (cust.getId() == selected.getId()) {
                             allCustomers.remove(cust);
                             uIText.setText(cust.getName() + " has been deleted.");
-
-
                         } else System.out.println("Failed to remove from list");
-
                     }
                     DBConnection.closeConnection();
                 }
@@ -347,9 +340,7 @@ public class DashboardController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 
     /**
      * This handles the modify customer.
@@ -358,8 +349,6 @@ public class DashboardController implements Initializable {
      */
     @FXML
     void onActUpdateCust(ActionEvent event) throws SQLException, Exception {
-
-
         if ((custTbl.getSelectionModel().getSelectedItem() == null)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a customer first");
             alert.showAndWait();
@@ -376,16 +365,12 @@ public class DashboardController implements Initializable {
 
             ModifyCustomerController MCController = loader.getController();
             MCController.sendCustomer(custTbl.getSelectionModel().getSelectedItem());
-
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
         }
     }
-
-
-
     /** This handles the exit button.
      @param event navigates to exit the entire application.  */
     @FXML
@@ -398,7 +383,6 @@ public class DashboardController implements Initializable {
      Controller. */
     @FXML
     void onActUpdateAppt(ActionEvent event) throws Exception {
-
         if ((apptTbl.getSelectionModel().getSelectedItem() == null)){
             Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select an appointment first.");
             alert.showAndWait();
@@ -420,7 +404,6 @@ public class DashboardController implements Initializable {
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
-
         }
     }
     /**
@@ -449,18 +432,13 @@ public class DashboardController implements Initializable {
             return false;
 
         });
-
         if (!filteredAppointments.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("You have an appointment within 15 minutes. Please confirm");
             alert.showAndWait();
-
         } else {
             uIText.setText("No upcoming appointments.");
-
-
         }
-
             try {
                 allCustomers.clear();
                 getAllCustomers();

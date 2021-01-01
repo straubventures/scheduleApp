@@ -35,24 +35,18 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
         DBDAO.UserDaoImpl.setAllCountries();
         DBDAO.UserDaoImpl.getAllCustomers();
         DBDAO.UserDaoImpl.setAllContacts();
         DBDAO.UserDaoImpl.getAllAppointments();
 
-
-
-
         Locale currentLocale = Locale.getDefault();
         ResourceBundle rb = ResourceBundle.getBundle("Main/Nat", currentLocale);
-            Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
             primaryStage.setTitle(rb.getString("Hello") + " " + rb.getString("World") + "!");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
     }
-
-
 
     public static void main(String[] args) throws SQLException, IOException {
 
@@ -63,15 +57,11 @@ public class Main extends Application {
         outputFile.println("Application started: " + LocalDateTime.now());
         outputFile.close();
 
-
-
-
         ResourceBundle rb = ResourceBundle.getBundle("Main/Nat", Locale.getDefault());
         Connection conn =  DBConnection.startConnection();
 
         DBQuery.setStatement(conn); //Create Statement object
         Statement statement = DBQuery.getStatement(); // Get Statement reference
-
 
         launch(args);
 

@@ -74,9 +74,6 @@ public class AddCustomerController implements Initializable {
     @FXML
     private ComboBox<Division> fLDivision;
 
-
-
-
     /**
      * This method causes the divisions to auto-populate.
      *
@@ -84,13 +81,10 @@ public class AddCustomerController implements Initializable {
      */
     @FXML
     void onActChooseCountry(ActionEvent event) throws SQLException, IOException {
-
         Country selectedCountry = country.getSelectionModel().getSelectedItem();
         selectedCountry.setAllDivisions();
         fLDivision.setItems(selectedCountry.getAllDivisions());
-
     }
-
 
     /**
      * This method exits to the main Dashboard.
@@ -99,12 +93,8 @@ public class AddCustomerController implements Initializable {
      */
         @FXML
         void onActCancelCust (ActionEvent event) throws IOException {
-
             sceneManage("/View/Dashboard.fxml", event);
-
         }
-
-
     /**
      * This method adds the customer information to MySQL and a list.
      *
@@ -112,10 +102,6 @@ public class AddCustomerController implements Initializable {
      */
         @FXML
         void onActSaveCust (ActionEvent event) throws SQLException, IOException {
-
-
-
-
             int id = idCount * 40 + Math.toIntExact(Math.round(Math.random() * 1000));
             idCount++;
             String name = custNameTxt.getText();
@@ -124,37 +110,23 @@ public class AddCustomerController implements Initializable {
             String postalCode = custZipCodeTxt.getText();
             int divisionNum = fLDivision.getSelectionModel().getSelectedItem().getDivisionId();
 
-
-                Connection conn = DBConnection.startConnection();
                 String sqlStatement = "INSERT INTO customers VALUES(?,?,?,?,?, NOW(), 'admin', NOW(), 'admin',?);";
-
-                System.out.println(divisionNum);
                 PreparedStatement pSqlStatement = DBConnection.startConnection().prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS);
-
                 pSqlStatement.setInt(1, id);
                 pSqlStatement.setString(2, name);
                 pSqlStatement.setString(3, address);
                 pSqlStatement.setString(4, postalCode);
                 pSqlStatement.setString(5, phone);
                 pSqlStatement.setInt(6, divisionNum);
-
-                DBQuery.setStatement(conn);
                 pSqlStatement.execute();
 
                 Customer newCust = new Customer(id, name, postalCode, address, phone, divisionNum);
-
                 allCustomers.add(newCust);
-
                 DBConnection.closeConnection();
-
                 sceneManage("/View/Dashboard.fxml", event);
-
             }
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         country.setItems(allCountries);
-
     }
 }

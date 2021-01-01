@@ -82,8 +82,6 @@ public class SignUpController {
         // Raw SQL insert statement
         String insertStatement = "INSERT INTO users(user_name, password) VALUES ('"+ usernameTxt.getText() + "', '" + passwordTxt.getText() + "');";
 
-
-
         //Execute statement
         statement.execute(insertStatement);
         if (statement.getUpdateCount() > 0)
@@ -92,7 +90,6 @@ public class SignUpController {
             System.out.println("No change.");
 
         DBConnection.closeConnection();
-
         sceneManage("/view/Login.fxml", event);
 
     }

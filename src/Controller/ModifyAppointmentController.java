@@ -105,7 +105,6 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private ComboBox<Contact> contactList;
 
-
     @FXML
     private TextField startHr;
 
@@ -155,8 +154,6 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     void onActSaveAppt(ActionEvent event) {
         try {
-
-
             int id = Integer.parseInt(apptIdTxt.getText());
             String title = apptTitleTxt.getText();
             String description = apptDescTxt.getText();
@@ -216,23 +213,15 @@ public class ModifyAppointmentController implements Initializable {
                     Timestamp start = Timestamp.valueOf(start1);
                     Timestamp end = Timestamp.valueOf(end1);
 
-                    System.out.println("This is the start time: " + start1);
-                    System.out.println("This is the end time: " + end1);
-                    System.out.println(bStartZDT);
-                    System.out.println(bEndZDT);
-
-                    if (start1.isBefore(lStartZDT.toLocalDateTime()) || start1.isAfter(lEndZDT.toLocalDateTime()) || end1.isAfter(lEndZDT.toLocalDateTime()) || end1.isBefore(lStartZDT.toLocalDateTime())) {
+                    if (lStartZDT.isBefore(bStartZDT) || lStartZDT.isAfter(bEndZDT) || lEndZDT.isAfter(bEndZDT) || lEndZDT.isBefore(bStartZDT)) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("Please place your time within the business hours of 8am-10pm EST.");
                         alert.showAndWait();
                     } else {
 
                         ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
-                            if (a.getStart().isBefore(start1) && a.getEnd().isAfter(end1) || a.getStart().isAfter(start1) && a.getStart().isBefore(end1) || end1.isAfter(a.getStart()) && end1.isBefore(a.getEnd())) {
-                                System.out.println("Got one!");
+                            if (a.getStart().isBefore(start1) && a.getEnd().isAfter(end1) || a.getStart().isAfter(start1) && a.getStart().isBefore(end1) || end1.isAfter(a.getStart()) && end1.isBefore(a.getEnd()) || a.getStart().equals(start1) || a.getStart().equals(end1) || a.getEnd().equals(start1) || a.getEnd().equals(end1))
                                 return true;
-                            }
-                            System.out.println("Missed one!");
                             return false;
 
                         });
@@ -242,17 +231,7 @@ public class ModifyAppointmentController implements Initializable {
                             alert.setContentText("This time is taken. Please choose another.");
                             alert.showAndWait();
                         } else {
-                            System.out.println(lStartZDT);
-                            System.out.println(lEndZDT);
-                            System.out.println(bStartZDT);
-                            System.out.println(bEndZDT);
-                            //WebX
 
-                            //One date
-                            //Combobox for Customer IDs
-
-
-                            //Key to keys for prepared statements
 
                             String sqlStatement = "UPDATE appointments SET Appointment_Id = ?, title = ?, description = ?, Location = ?, type = ?, start = ?, end = ?, Create_Date = NOW(), Created_By = 'admin', Last_Update = NOW(), Last_Updated_By = 'admin', Customer_ID = ?, User_Id = ?, contact_id = ? WHERE Appointment_ID = ?;";
                             PreparedStatement pSqlStatement = DBConnection.startConnection().prepareStatement(sqlStatement, Statement.RETURN_GENERATED_KEYS);
@@ -302,8 +281,6 @@ public class ModifyAppointmentController implements Initializable {
      */
     public void  sendAppt(Appointment appt) {
         try {
-//Appointment_ID, title, description, location, contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-
             Contact contactChoice = null;
             for (Contact contact : allContacts) {
                 if (appt.getContact().getId() == contact.getId()) {

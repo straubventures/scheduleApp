@@ -44,8 +44,6 @@ public class ModifyCustomerController implements Initializable {
         stage.show();
     }
 
-
-
     @FXML
     private TextField custNameTxt;
 
@@ -136,12 +134,7 @@ public class ModifyCustomerController implements Initializable {
                 allCustomers.remove(i);
             break;
         }
-
-
-
-
         allCustomers.add(newCust);
-
         sceneManage("/View/Dashboard.fxml", event);
     }
 
@@ -150,14 +143,10 @@ public class ModifyCustomerController implements Initializable {
      * @param customer is the part which is sent over */
     public void sendCustomer(Customer customer) throws IOException {
             try {
-
                 idTxt.setText(String.valueOf(customer.getId()));
                 custNameTxt.setText(String.valueOf(customer.getName()));
                 custPhoneTxt.setText(String.valueOf(customer.getPhone()));
                 custStreetAddressTxt.setText(String.valueOf(customer.getAddress()));
-
-
-
                 custZipCodeTxt.setText(String.valueOf(customer.getPostalCode()));
                 for (Country country1 : allCountries) {
                     country1.setAllDivisions();
@@ -171,20 +160,15 @@ public class ModifyCustomerController implements Initializable {
                                 }
                             }
                         }
-
                     }
-
                     }
 
             } catch (NullPointerException | IOException | SQLException ex) {
                 System.out.println("Exception " + ex);
             }
         }
-
         public void initialize(URL url, ResourceBundle rb) {
-
                  country.setItems(allCountries);
-
         }
     }
 
