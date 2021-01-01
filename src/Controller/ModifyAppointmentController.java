@@ -205,10 +205,10 @@ public class ModifyAppointmentController implements Initializable {
 
 
                     ZonedDateTime bStartZDT = estBStart.atZone(estZoneId); //Business hours start converted to Zoned Date Time object
-                    ZonedDateTime lStartZDT = bStartZDT.withZoneSameInstant(ZoneId.systemDefault()); //Business hours in local time
+                    ZonedDateTime lStartZDT = ZonedDateTime.of(startDay, startTime, zoneIdLocal);
 
                     ZonedDateTime bEndZDT = estBEnd.atZone(estZoneId);
-                    ZonedDateTime lEndZDT = bEndZDT.withZoneSameInstant(ZoneId.systemDefault());
+                    ZonedDateTime lEndZDT = ZonedDateTime.of(startDay, endTime, zoneIdLocal);
 
                     Timestamp start = Timestamp.valueOf(start1);
                     Timestamp end = Timestamp.valueOf(end1);
