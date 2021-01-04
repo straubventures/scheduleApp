@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 import static Utils.DBDAO.UserDaoImpl.allAppointments;
 import static Utils.DBDAO.UserDaoImpl.allCustomers;
 
+/** This class controls the appointments by customer report. It uses a lambda expression to create a filtered list.
+ */
 public class AppointmentsByCustomerController implements Initializable {
 
     Stage stage;
@@ -45,8 +47,7 @@ public class AppointmentsByCustomerController implements Initializable {
     private Label apptsScheduled;
 
     /**
-     * This method uses a lambda expression to create a filtered list of appointments in order to know how
-     * many appointments are assocated with the selected customer.
+     *
      *
      * @param event   is for the event handler.
      */

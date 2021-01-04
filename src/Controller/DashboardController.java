@@ -416,7 +416,7 @@ public class DashboardController implements Initializable {
     }
 
     /** This method is called when the window is first loaded. Within, it sets the id TextField with the current counter. A new object is created that can then be called upon
-     * later.
+     * later. A lambda expression is used to create a filtered list of appointments, which is then used to determine whether or not to create an alert.
      @param url is the location where this class is found.
      @param rb helps facilitate actions with objects.
      */

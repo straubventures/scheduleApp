@@ -23,6 +23,10 @@ import java.util.ResourceBundle;
 
 import static Utils.DBDAO.UserDaoImpl.allAppointments;
 
+
+/** This class controls the report generator for appointments by month/type.  This method uses two lambda expression to create
+ * filtered lists of appointments that involve a given month, and then contains a specific text.
+  */
 public class AppointmentsByMonthController implements Initializable {
 
     Stage stage;
@@ -51,11 +55,6 @@ public class AppointmentsByMonthController implements Initializable {
 
 
 
-    /**
-     * This method uses a lambda expression to create a filtered list of appointments that involve a given month.
-     *
-     * @param event   is for the event handler.
-     */
     @FXML
     void onActChooseMonth(ActionEvent event) {
             ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
@@ -69,11 +68,6 @@ public class AppointmentsByMonthController implements Initializable {
             numberOfAppts.setText(String.valueOf(filteredAppointments.size()));
             }
 
-    /**
-     * This method uses a lambda expression to create a filtered list of appointments whose type contains the user-typed String input.
-     *
-     * @param event   is for the event handler.
-     */
     @FXML
     void onKeyFilter(KeyEvent event) {
         ObservableList<Appointment> filteredAppointments = allAppointments.filtered(a -> {
@@ -87,11 +81,6 @@ public class AppointmentsByMonthController implements Initializable {
         numberOfAppts.setText(String.valueOf(filteredAppointments.size()));
     }
 
-    /**
-     * This method goes back to the reports dashboard.
-     *
-     * @param event   is for the event handler.
-     */
 
     @FXML
     void onActGoBack(ActionEvent event) throws IOException {
